@@ -5,8 +5,6 @@
 }
 
 body {
-  margin: 40px;
-  font-family: 'Open Sans', 'sans-serif';
   background-color: #fff;
   color: #444;
 }
@@ -16,16 +14,21 @@ p {
   margin: 0 0 1em 0;
 }
 
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
 .wrapper {
   max-width: 940px;
-  margin: 0 20px;
+  margin: 0 auto;
   display: grid;
   grid-gap: 10px;
+  padding: 4rem 0 6rem;    /* Footer height */
 }
 
 
 /* no grid support? */
-
 .wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -34,8 +37,9 @@ p {
 .wrapper {
   display: grid;
   margin: 0 auto;
+  /* creates grid sizing */
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-auto-rows: minmax(150px, auto);
+  grid-auto-rows: minmax(350px, auto);
 }
 
 .trail-tile {
@@ -47,10 +51,10 @@ p {
 
 .header,
 .footer {
-  margin-left: 5px;
-  margin-right: 5px;
+  text-align: center;
   flex: 0 1 100%;
-  grid-column: 1 / -1;
+  min-height: 4rem;
+  background-color: #009688;
 }
 
 .wrapper > * {
@@ -58,11 +62,57 @@ p {
   color: #fff;
   border-radius: 5px;
   padding: 20px;
-  font-size: 150%;
   margin-bottom: 10px;
 }
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 
+
+/* header styles */
+.header {
+  padding: 4rem;
+}
+.title-2 {
+  color: #e0f2f1;
+}
+
+
+/* Start tile styles */
+.trail-tile > * {
+  margin: 0 auto;
+}
+
+/* creates cover container for tile image */
+.img-box {
+  width: calc(100% + 40px);
+  margin-left: -20px;
+  margin-top: -20px;
+  height: 80%;
+}
+.trail-tile img {
+  width: 100%;
+  object-fit: cover;
+  height: 90%;
+  border-radius: 5px 5px 0 0;
+}
+
+/* risk */
+.risk-rating .icon {
+  color: rgba(216, 22, 22, 0.925);
+}
+
+
+
+/* maintains margin on the sides of the tiles at smaller screen sizes */
+@media only screen and (max-width: 980px) {
+  .wrapper {
+    margin: 0 20px;
+  }
+}
 /* We need to set the margin used on flex items to 0 as we have gaps in grid.  */
 
 @supports (display: grid) {
