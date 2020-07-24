@@ -5,8 +5,8 @@
 }
 
 body {
-  background-color: #fff;
-  color: #444;
+  background-color: var(--background);
+  color: var(--default-text);
 }
 
 h1,
@@ -24,9 +24,8 @@ p {
   margin: 0 auto;
   display: grid;
   grid-gap: 10px;
-  padding: 4rem 0 6rem;    /* Footer height */
+  padding: 4rem 0 6rem; /* Footer height */
 }
-
 
 /* no grid support? */
 .wrapper {
@@ -54,13 +53,14 @@ p {
   text-align: center;
   flex: 0 1 100%;
   min-height: 4rem;
-  background-color: #009688;
+  background-color: var(--primary-color);
+  border-radius: var(--btm-border-radius);
 }
 
 .wrapper > * {
-  background-color: #444;
+  background-color: var(--secondary-color);
   color: #fff;
-  border-radius: 5px;
+  border-radius: var(--tile-border-radius);
   padding: 20px;
   margin-bottom: 10px;
 }
@@ -71,13 +71,57 @@ p {
   width: 100%;
 }
 
+:root {
+  --primary-color: #009688;
+  --dark-primary-color: #004D40;
+  --light-primary-color: #B2DFDB;
+  --p-variant-color: #00796B;
+  --secondary-color: #006064;
+  --background: #B0BEC5;
+  --default-text: #444;
+
+  --top-border-radius: 10px 10px 0 0;
+  --btm-border-radius: 0 0 10px 10px;
+  --tile-border-radius: 10px;
+}
+
+h1 {
+  font-family: "quicksand";
+  font-weight: 600;
+  font-size: xx-large;
+  color: var(--dark-primary-color);
+}
+
+h2 {
+  font-family: "quicksand";
+  font-weight: 600;
+}
+
+h3 {
+  font-family: "roboto";
+  font-weight: 400 ;
+}
+
+h4 {
+  font-family: "quicksand";
+  font-weight: 500;
+  font-size: large;
+  line-height: 40px;
+}
+
+p {
+  font-family: "roboto";
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--light-primary-color);
+}
 
 /* header styles */
 .header {
   padding: 4rem;
 }
 .title-2 {
-  color: #e0f2f1;
+  color: var(--light-primary-color);
 }
 
 
@@ -97,15 +141,13 @@ p {
   width: 100%;
   object-fit: cover;
   height: 90%;
-  border-radius: 5px 5px 0 0;
+  border-radius: var(--top-border-radius);
 }
 
 /* risk */
 .risk-rating .icon {
   color: rgba(216, 22, 22, 0.925);
 }
-
-
 
 /* maintains margin on the sides of the tiles at smaller screen sizes */
 @media only screen and (max-width: 980px) {
