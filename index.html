@@ -8,11 +8,13 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Josh, Jon, Caleb, Dan, Angelina" />
+
+    <link rel="stylesheet" href="css/reset.css"/>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"
     />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&family=Roboto:wght@400;700&display=swap" 
     rel="stylesheet" type="text/css">
     <script
       src="https://kit.fontawesome.com/5e7b35dc62.js"
@@ -23,9 +25,54 @@
   </head>
   <body>
     <div class="page-container">
-      <header class="header">
-          <h1><i class="fas fa-mountain"></i> DISCOVER<span class="title-2">serenity</span></h1>
+      <header class="page-header">
+        <h1><i class="fas fa-mountain"></i> DISCOVER<span class="title-2">serenity</span></h1>
+        
+        <div class="ui loading search">
+          <div class="ui icon input">
+            <input class="prompt" type="text" placeholder="Find your trail...">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+        <br/>
+        <p>Use my location <i class="fas fa-location-arrow"></i></p>
       </header>
+
+      <div class="ui small modal">
+        <div class="header">
+          <div class="actions">
+            <div class="ui cancel button"><i class="far fa-window-close"></i></div>
+          </div>
+          <h2>Annette Lake</h2>
+        </div>
+        <div class="image content">
+          <img class="modal-img" src="img/AnnettePH.jpg" />
+          <div class="modal-body description">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="popularity">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
+            <hr/>
+            <br/>
+            <p>Difficulty: </p>
+            <p>Location: </p>
+            <p>Summary: </p>
+          </div>
+        </div>
+      </div>
+
       <div class="wrapper">
         <div class="trail-tile">
           <div class="img-box">
@@ -33,210 +80,195 @@
           </div>
           <h4 class="trail-name">Annette Lake</h4>
           <div class="trail-info">
-            <p>Status: <span class="status">open</span></p>
+            <p>Status: <span class="status">OPEN</span></p>
             <p class="risk-rating">
-              Risk factor: <i class="fas fa-circle icon"></i>
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
             </p>
-            <p>Popularity: <span class="popularity-rating">10</span></p>
+            <p class="popularity">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
           </div>
         </div>
+        
         <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
+          <div class="img-box">
+            <img class="trail-img" src="img/AnnettePH.jpg" />
           </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
+          <h4 class="trail-name">Annette Lake</h4>
+          <div class="trail-info">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="star-votes">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
           </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-          <div class="trail-tile">
-            <div class="img-box">
-              <img class="trail-img" src="img/AnnettePH.jpg" />
-            </div>
-            <h4 class="trail-name">Annette Lake</h4>
-            <div class="trail-info">
-              <p>Status: <span class="status">open</span></p>
-              <p class="risk-rating">
-                Risk factor: <i class="fas fa-circle icon"></i>
-              </p>
-              <p>Popularity: <span class="popularity-rating">10</span></p>
-            </div>
-          </div>
-        <!-- <div class="trail-tile">G
-
         </div>
-        <div class="trail-tile">H
 
+        <div class="trail-tile">
+          <div class="img-box">
+            <img class="trail-img" src="img/AnnettePH.jpg" />
+          </div>
+          <h4 class="trail-name">Annette Lake</h4>
+          <div class="trail-info">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="star-votes">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
+          </div>
         </div>
-        <div class="trail-tile">I
 
+        <div class="trail-tile">
+          <div class="img-box">
+            <img class="trail-img" src="img/AnnettePH.jpg" />
+          </div>
+          <h4 class="trail-name">Annette Lake</h4>
+          <div class="trail-info">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="star-votes">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
+          </div>
         </div>
-        <div class="trail-tile">J
 
-        </div> -->
+        <div class="trail-tile">
+          <div class="img-box">
+            <img class="trail-img" src="img/AnnettePH.jpg" />
+          </div>
+          <h4 class="trail-name">Annette Lake</h4>
+          <div class="trail-info">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="star-votes">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="trail-tile">
+          <div class="img-box">
+            <img class="trail-img" src="img/AnnettePH.jpg" />
+          </div>
+          <h4 class="trail-name">Annette Lake</h4>
+          <div class="trail-info">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="star-votes">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="trail-tile">
+          <div class="img-box">
+            <img class="trail-img" src="img/AnnettePH.jpg" />
+          </div>
+          <h4 class="trail-name">Annette Lake</h4>
+          <div class="trail-info">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="star-votes">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="trail-tile">
+          <div class="img-box">
+            <img class="trail-img" src="img/AnnettePH.jpg" />
+          </div>
+          <h4 class="trail-name">Annette Lake</h4>
+          <div class="trail-info">
+            <p>Status: <span class="status">OPEN</span></p>
+            <p class="risk-rating">
+              Covid-19 factor: 
+              <span class="fas fa-circle checked icon"></span>
+              <span class="fas fa-circle icon"></span>
+              <span class="fas fa-circle icon"></span>
+            </p>
+            <p class="star-votes">
+              Popularity: 
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking checked icon"></span>
+              <span class="fas fa-hiking icon"></span>
+              <span class="fas fa-hiking icon"></span>
+            </p>
+          </div>
+        </div>
       </div>
-
-      <footer class="footer">My footer</footer>
+      <footer class="footer">
+        My footer
+      </footer>
     </div>
 
     <script
@@ -245,8 +277,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
-    <script src="./hiking-project.js"></script>
-
     <script type="text/javascript" src="script.js"></script>
   </body>
 </html>
