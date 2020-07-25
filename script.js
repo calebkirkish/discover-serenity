@@ -13,14 +13,16 @@ function getCounty(lat, lon) {
     queryLocation +
     "&sensor=false&key=" +
     gKey;
-//   console.log(url);
+  //   console.log(url);
   $.ajax({
     method: "GET",
     url: url,
-    complete: function (xhr, statusText) { //confirms success
-    //   console.log(xhr.status);
+    complete: function (xhr, statusText) {
+      //confirms success
+      //   console.log(xhr.status);
     },
-    error: function (jqXHR, error, errorThrown) { //if error with call
+    error: function (jqXHR, error, errorThrown) {
+      //if error with call
       if (jqXHR.status && jqXHR.status == 400) {
         alert(jqXHR.responseText);
       } else {
@@ -30,12 +32,13 @@ function getCounty(lat, lon) {
     },
   }).then(function (response) {
     // console.log(response);
-    if (response.error_message) { // If API invalid or response is 200 but google throwns error
-    //   console.log(response.error_message);
-      alert("Something went wrong with your request.")
+    if (response.error_message) {
+      // If API invalid or response is 200 but google throwns error
+      //   console.log(response.error_message);
+      alert("Something went wrong with your request.");
     }
     if (response.status === "ZERO_RESULTS") {
-        alert("Sorry, we could not find your location")
+      alert("Sorry, we could not find your location");
     }
     var components = response.results[0].address_components; //this is an array
     components.forEach((item) => {
@@ -48,10 +51,14 @@ function getCounty(lat, lon) {
       }
       if (checkItem === "administrative_area_level_2") {
         itemCounty = item.long_name;
-        itemCounty = itemCounty.replace("County", "").trim()
+        itemCounty = itemCounty.replace("County", "").trim();
         // console.log(itemCounty);
       }
-    //   COVIDdata(itemCounty, itemState) --- this will be the function that Caleb is working on.
+      var result = {
+        state: itemState,
+        county: itemCounty,
+      };
+      return result;
     });
   });
 }
