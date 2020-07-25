@@ -17,6 +17,7 @@ p {
 .page-container {
   position: relative;
   min-height: 100vh;
+  margin: 10px;
 }
 
 .wrapper {
@@ -46,15 +47,15 @@ p {
   margin-left: 5px;
   margin-right: 5px;
   flex: 1 1 200px;
+  box-shadow: 0 0 10px 1px #546E7A;
 }
 
-.header,
+.page-header,
 .footer {
   text-align: center;
   flex: 0 1 100%;
   min-height: 4rem;
   background-color: var(--primary-color);
-  border-radius: var(--btm-border-radius);
 }
 
 .wrapper > * {
@@ -69,6 +70,39 @@ p {
   position: absolute;
   bottom: 0;
   width: 100%;
+  border-radius: var(--btm-border-radius);
+}
+
+/* MODAL STYLES */
+.ui.modal {
+  background-color: transparent;
+}
+
+.ui.cancel {
+  background-color: transparent;
+  text-align: right;
+  float: right;
+  padding: 30px 20px 10px 10px;
+}
+
+.ui.small.modal > .header {
+  border-radius: 18px 18px 0 0;
+  color: #546E7A;
+  padding: 1px 5px 20px 25px;
+}
+
+.ui.modal > .content {
+  background-color: var(--p-variant-color);
+  border-radius: 0 0 18px 18px;
+}
+
+.modal-img {
+  width: 50%;
+  border-radius: var(--tile-border-radius);
+}
+
+.modal-body {
+  margin: 2rem;
 }
 
 :root {
@@ -93,8 +127,9 @@ h1 {
 }
 
 h2 {
-  font-family: "quicksand";
+  font-family: "Quicksand";
   font-weight: 600;
+  font-size: 25px;
 }
 
 h3 {
@@ -103,7 +138,7 @@ h3 {
 }
 
 h4 {
-  font-family: "quicksand";
+  font-family: "Quicksand";
   font-weight: 500;
   font-size: large;
   line-height: 40px;
@@ -112,18 +147,18 @@ h4 {
 p {
   font-family: "roboto";
   font-weight: 400;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--light-primary-color);
 }
 
 /* header styles */
-.header {
+.page-header {
   padding: 4rem;
+  border-radius: var(--top-border-radius);
 }
 .title-2 {
   color: var(--light-primary-color);
 }
-
 
 /* Start tile styles */
 .trail-tile > * {
@@ -146,7 +181,16 @@ p {
 
 /* risk */
 .risk-rating .icon {
-  color: rgba(216, 22, 22, 0.925);
+  font-size: x-small;
+}
+
+/* popularity */
+.star-votes .icon {
+  font-size: x-small;
+}
+
+.checked {
+  color: white;
 }
 
 /* maintains margin on the sides of the tiles at smaller screen sizes */
