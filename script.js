@@ -4,8 +4,6 @@
 
 var gKey = "AIzaSyDQOySmk8taGDt9pVaSXmNHpO0jjMnQkJ8";
 
-function locationError(msg) {}
-
 function getCounty(lat, lon) {
   var queryLocation = lat + ", " + lon;
   var url =
