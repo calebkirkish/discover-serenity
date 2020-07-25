@@ -185,8 +185,8 @@ p {
 }
 
 /* popularity */
-.star-votes .icon {
-  font-size: x-small;
+.popularity .icon {
+  font-size: small;
 }
 
 .checked {
