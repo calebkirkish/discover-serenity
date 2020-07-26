@@ -1,5 +1,12 @@
 // Google Maps:  Still need to research to find query URL, etc.
 
+// Trail detail modal
+$('.trail-tile').on('click', function() {
+  $('.small.modal')
+  .modal('setting', 'transition', 'vertical flip')
+  .modal('toggle', 'show-dimmer')
+});
+
 // API Key:
 
 var gKey = "AIzaSyDQOySmk8taGDt9pVaSXmNHpO0jjMnQkJ8";

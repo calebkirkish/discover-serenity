@@ -70,6 +70,8 @@ p {
   position: absolute;
   bottom: 0;
   width: 100%;
+  padding-top: 15px;
+  color: var(--dark-primary-color);
   border-radius: var(--btm-border-radius);
 }
 
