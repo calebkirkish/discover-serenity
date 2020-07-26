@@ -1,3 +1,4 @@
+
 // Google Maps:  Still need to research to find query URL, etc.
 
 // API Key:
@@ -66,7 +67,7 @@ function getCounty(lat, lon) {
 // getCounty(47.487983, -121.723172);
 
 
-function popularity (trailArray) {
+function estimatePopularity (trailArray) {
     trailArray.forEach(trail => {
         var voteCount = trail.starVotes;
         var rating = trail.stars;
@@ -77,8 +78,6 @@ function popularity (trailArray) {
             voteCount += 5;
         } else if (rating > 3.5) {
             voteCount += 3;
-        } else {
-            voteCount -= 3;
         }
 
         if (voteCount < 10) {
@@ -89,16 +88,14 @@ function popularity (trailArray) {
             popularity = 3;
         } else if (voteCount < 70) {
             popularity = 4;
-        } else if (voteCount >= 70) {
-            popularity = 5
         } else {
-            alert("Popularity calculation error")
-        }
+            popularity = 5
+        } 
+        console.log(voteCount);
+        
         trail.popularity = popularity
         
     });
 }
 
-popularity(trailArray)
-console.log(trailArray)
 
