@@ -147,7 +147,7 @@ function userSearch(query) {
       // hikingAPI(lat, lon)
     } else {
       searchReset();
-      myLocation.text("Sorry we could not find " + query + ". Please try another location.");
+      myLocation.text("Please enter a city or ZIP code.");
       myLocation.off();
       myLocation.css("cursor", "auto")
     }
