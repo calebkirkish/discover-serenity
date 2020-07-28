@@ -153,6 +153,34 @@ p {
   color: var(--light-primary-color);
 }
 
+/* Range slider */
+.slider {
+  -webkit-appearance: none;
+  width: 55%;
+  height: 10px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: var(--tile-border-radius);
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 15px;
+  background: var(--dark-primary-color);
+  border-radius: var(--tile-border-radius);
+  cursor: pointer;
+}
+
+
 /* header styles */
 .page-header {
   padding: 4rem;
