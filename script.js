@@ -64,6 +64,7 @@ function getCounty(lat, lon) {
 // getCounty(0, 0);
 // getCounty(47.487983, -121.723172);
 
+
 //global variables/elements
 var myLocation = $("#current-location");
 var searchField = $("#search-field");
@@ -82,12 +83,10 @@ function getLocation() {
 }
 
 function geoSuccess(position) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
   myLocation.text("Finding trails...");
   myLocation.css("cursor", "not-allowed")
-
-  console.log(latitude + ", " + longitude);
   // hikingAPI(latitude, longitude)
 
 }
@@ -102,7 +101,6 @@ function geoError() {
 
 function userSearch(query) {
 
-  // https://maps.googleapis.com/maps/api/geocode/json?&address=98038&key=AIzaSyDQOySmk8taGDt9pVaSXmNHpO0jjMnQkJ8
   var url =
     "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     query +
@@ -114,7 +112,7 @@ function userSearch(query) {
     url: url,
     complete: function (xhr, statusText) {
       //confirms success
-      //   console.log(xhr.status);
+      //console.log(xhr.status);
     },
     error: function (jqXHR, error, errorThrown) {
       //if error with call
@@ -122,14 +120,12 @@ function userSearch(query) {
         alert(jqXHR.responseText);
       } else {
         // console.log(xhr.status);
-        alert("Something went wrong: " + jqXHR.status);
+        console.log("Something went wrong: " + jqXHR.status);
       }
     },
   }).then(function (response) {
-    console.log(response);
     if (response.error_message) {
       // If API invalid or response is 200 but google throwns error
-      //   console.log(response.error_message);
       alert("Something went wrong with your request.");
     }
     if (response.status === "ZERO_RESULTS") {
@@ -144,8 +140,8 @@ function userSearch(query) {
       var lon = resultObj.lng;
       var responseLocation = response.results[0].formatted_address
       myLocation.text("Finding hikes near " + responseLocation + ".");
-  
       // hikingAPI(lat, lon)
+
     } else {
       searchReset();
       myLocation.text("Please enter a city or ZIP code.");
@@ -155,7 +151,7 @@ function userSearch(query) {
   })
 }
 
-function searchReset() { // This will need to be addded after a search has been executed/failed
+function searchReset() { // This will need to be addded after the tiles have been generated as well
   myLocation.off()
   myLocation.html("Use my location <i class='fas fa-location-arrow'></i>");
   searchField.val("");
@@ -169,16 +165,11 @@ function searchReset() { // This will need to be addded after a search has been 
 
 $(document).ready(function () {
 
-
-// User input
-// disable input and add class loading on click
-
 // get current location
 
 myLocation.on("click", getLocation);
 
 // search field
-
 $(".search.link").on("click", function() {
   if (searchField.val()) {
     searchField.attr("disabled", true);
@@ -187,7 +178,6 @@ $(".search.link").on("click", function() {
     myLocation.text("Finding trails...");
     myLocation.css("cursor", "not-allowed");
     myLocation.off();
-    // searchField.val("");
     userSearch(query)
   }
   
@@ -204,6 +194,7 @@ searchField.on("keypress", function (e) {
 // Create tiles here
 
 // after tiles have been created reenable search input
+// searchReset()
 
 
   // Trail detail modal 
