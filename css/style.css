@@ -162,6 +162,13 @@ p {
   color: var(--light-primary-color);
 }
 
+/* Search styles */
+#current-location {
+  display: inline-block;
+  cursor: pointer;
+}
+
+
 /* Start tile styles */
 .trail-tile > * {
   margin: 0 auto;
