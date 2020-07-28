@@ -101,6 +101,7 @@ function geoError() {
 }
 
 function userSearch(query) {
+
   // https://maps.googleapis.com/maps/api/geocode/json?&address=98038&key=AIzaSyDQOySmk8taGDt9pVaSXmNHpO0jjMnQkJ8
   var url =
     "https://maps.googleapis.com/maps/api/geocode/json?address=" +
@@ -179,14 +180,17 @@ myLocation.on("click", getLocation);
 // search field
 
 $(".search.link").on("click", function() {
-  searchField.attr("disabled", true);
-  searchDiv.addClass("loading")
-  var query = searchField.val().trim();
-  myLocation.text("Finding trails...");
-  myLocation.css("cursor", "not-allowed");
-  myLocation.off();
-  // searchField.val("");
-  userSearch(query)
+  if (searchField.val()) {
+    searchField.attr("disabled", true);
+    searchDiv.addClass("loading")
+    var query = searchField.val().trim();
+    myLocation.text("Finding trails...");
+    myLocation.css("cursor", "not-allowed");
+    myLocation.off();
+    // searchField.val("");
+    userSearch(query)
+  }
+  
 })
 searchField.on("keypress", function (e) {
   if (e.which == 13) {
