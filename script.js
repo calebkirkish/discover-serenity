@@ -93,7 +93,7 @@ function geoSuccess(position) {
 
 function geoError() {
   myLocation.text("Unable to retrieve your location");
-  searchField.attr("disabled", true);
+  searchField.attr("disabled", false);
   searchDiv.removeClass("loading");
   myLocation.css("cursor", "auto")
 
