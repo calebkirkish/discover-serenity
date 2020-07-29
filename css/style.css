@@ -67,6 +67,11 @@ p {
   background-color: var(--primary-color);
 }
 
+.logo {
+  width: 45px;
+  height: 40px;
+}
+
 .wrapper > * {
   background-color: var(--secondary-color);
   color: #fff;
