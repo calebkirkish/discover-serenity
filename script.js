@@ -184,7 +184,7 @@ function getCounty(lat, lon, trail) {
   }).then(function (response) {
     // console.log(response);
     if (response.error_message) {
-      // If API invalid or response is 200 but google throwns error
+      // If API invalid or response is 200 but google throws error
       //   console.log(response.error_message);
       alert("Something went wrong with your request.");
     }
@@ -294,7 +294,7 @@ function userSearch(query) {
     },
   }).then(function (response) {
     if (response.error_message) {
-      // If API invalid or response is 200 but google throwns error
+      // If API invalid or response is 200 but google throws error
       alert("Something went wrong with your request.");
     }
     if (response.status === "ZERO_RESULTS") {
@@ -361,7 +361,7 @@ $(document).ready(function () {
 
   // Create tiles here
 
-  // after tiles have been created reenable search input
+  // after tiles have been created re-enable search input
   // searchReset()
 
   // Trail detail modal
