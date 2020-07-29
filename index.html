@@ -28,15 +28,17 @@
       <header class="page-header">
         <h1><i class="fas fa-mountain"></i> DISCOVER<span class="title-2">serenity</span></h1>
         
-        <div class="ui loading search">
+        <div id="search-div" class="ui search">
           <div class="ui icon input">
-            <input class="prompt" type="text" placeholder="Find your trail...">
-            <i class="search icon"></i>
+            <input id="search-field" class="prompt" type="text" placeholder="Enter city or ZIP">
+            <i class="search link icon"></i>
           </div>
           <div class="results"></div>
         </div>
         <br/>
-        <p>Use my location <i class="fas fa-location-arrow"></i></p>
+        <div>
+          <p id="current-location">Use my location <i class="fas fa-location-arrow"></i></p>
+        </div>
       </header>
 
       <div class="ui small modal">
