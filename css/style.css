@@ -18,6 +18,15 @@ p {
   position: relative;
   min-height: 100vh;
   margin: 10px;
+  background-color: var(--background);
+  border-radius: var(--tile-border-radius);
+}
+
+.full-image {
+  background-image: url("../img/AnnettePH.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: var(--tile-border-radius);
 }
 
 .wrapper {
@@ -153,36 +162,9 @@ p {
   color: var(--light-primary-color);
 }
 
-/* Range slider */
-.slider {
-  -webkit-appearance: none;
-  width: 55%;
-  height: 10px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-  border-radius: var(--tile-border-radius);
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 30px;
-  height: 15px;
-  background: var(--dark-primary-color);
-  border-radius: var(--tile-border-radius);
-  cursor: pointer;
-}
-
 /* header styles */
 .page-header {
-  padding: 4rem;
+  padding: 2rem;
   border-radius: var(--top-border-radius);
 }
 .title-2 {
@@ -194,7 +176,6 @@ p {
   display: inline-block;
   cursor: pointer;
 }
-
 
 /* Start tile styles */
 .trail-tile > * {
