@@ -18,6 +18,15 @@ p {
   position: relative;
   min-height: 100vh;
   margin: 10px;
+  background-color: var(--background);
+  border-radius: var(--tile-border-radius);
+}
+
+.full-image {
+  background-image: url("../img/AnnettePH.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: var(--tile-border-radius);
 }
 
 .wrapper {
@@ -56,6 +65,11 @@ p {
   flex: 0 1 100%;
   min-height: 4rem;
   background-color: var(--primary-color);
+}
+
+.logo {
+  width: 45px;
+  height: 40px;
 }
 
 .wrapper > * {
@@ -155,7 +169,7 @@ p {
 
 /* header styles */
 .page-header {
-  padding: 4rem;
+  padding: 2rem;
   border-radius: var(--top-border-radius);
 }
 .title-2 {
@@ -167,7 +181,6 @@ p {
   display: inline-block;
   cursor: pointer;
 }
-
 
 /* Start tile styles */
 .trail-tile > * {

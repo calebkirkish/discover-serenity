@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
+  
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -23,11 +24,14 @@
     <link rel="stylesheet" href="css/style.css"/>
     <title>Discover Serenity</title>
   </head>
+
   <body>
-    <div class="page-container">
+    <div class="page-container ">
       <header class="page-header">
-        <h1><i class="fas fa-mountain"></i> DISCOVER<span class="title-2">serenity</span></h1>
-        
+        <a class="menu-bar" href="index.html">
+          <h1><img src="img/brand-icon.png" class="logo" alt="Icon"> DISCOVER<span class="title-2">serenity</span></h1>
+        </a>
+        <br/>
         <div id="search-div" class="ui search">
           <div class="ui icon input">
             <input id="search-field" class="prompt" type="text" placeholder="Enter city or ZIP">
@@ -40,7 +44,7 @@
           <p id="current-location">Use my location <i class="fas fa-location-arrow"></i></p>
         </div>
       </header>
-
+      
       <div class="ui small modal">
         <div class="header">
           <div class="actions">
@@ -68,9 +72,9 @@
             </p>
             <hr/>
             <br/>
-            <p>Difficulty: </p>
-            <p>Location: </p>
-            <p>Summary: </p>
+            <p>Difficulty: <span class="difficulty"></span></p>
+            <p>Location: <span class="location"></span></p>
+            <p>Summary: <span class="summary"></span></p>
           </div>
         </div>
       </div>
