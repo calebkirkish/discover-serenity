@@ -1,3 +1,4 @@
+
 // Google Maps:  Still need to research to find query URL, etc.
 
 // Trail detail modal
@@ -71,3 +72,37 @@ function getCounty(lat, lon) {
 // Test cases
 // getCounty(0, 0);
 // getCounty(47.487983, -121.723172);
+
+
+function estimatePopularity (trailArray) {
+    trailArray.forEach(trail => {
+        var voteCount = trail.starVotes;
+        var rating = trail.stars;
+        var popularity = "";
+        if (rating >= 4.5) {
+            voteCount += 8;
+        } else if (rating > 4) {
+            voteCount += 5;
+        } else if (rating > 3.5) {
+            voteCount += 3;
+        }
+
+        if (voteCount < 10) {
+            popularity = 1;
+        } else if (voteCount < 21) {
+            popularity = 2;
+        } else if (voteCount < 46) {
+            popularity = 3;
+        } else if (voteCount < 70) {
+            popularity = 4;
+        } else {
+            popularity = 5
+        } 
+        console.log(voteCount);
+        
+        trail.popularity = popularity
+        
+    });
+}
+
+
