@@ -258,7 +258,7 @@ function getCovid() {
         search(item.county_name,item.state_name, trailArray, item);
       });
       // for testing
-      console.log(trailArray)
+      // console.log(trailArray)
 
   })
 }
