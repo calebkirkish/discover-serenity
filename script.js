@@ -50,6 +50,7 @@ class Trail {
 }
 
 function getTrailData(lat, lon) {
+trailArray = [];
   // API Call to Hiking Project
   // Variables for our API call.  Lat, lon, distance will be determined by the end user but are hard-coded for now
 var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
@@ -136,23 +137,18 @@ var hikingQueryURL =
         var lon = trail.longitude;
         getCounty(lat, lon, trail);
         estimatePopularity(trailArray);
-        // console.log(result);
-        // trail.county = result.currentCounty;
-        // trail.state = result.currentState;
+
       });
 
-      // Here we need another .then for covid data function that passes in the trailArray. Within the covid function it will make one API call for the state (if there are multiple states it will need to handle that with another call)
-      // foreach trail it will look at the trail.county and then search the stateData array for that county and add the applicable covid risk to that trail. Will need to write an error that will display unknown if the code
-
-      // this will be followed by a .done function that creates tiles for the trail data
-
-      // all code can go here after AJAX calls
-
   
-    }).then(getCovid)
+    }).then(getCovid).done(function() {
+      //create trail tiles here
+      // add event listeners after creating tiles
+      //populate modals
+      searchReset();
+    })
 
     
-  // Parse our new local storage item so that it can be referenced
 }
 
 function getCounty(lat, lon, trail) {
@@ -262,7 +258,7 @@ function getCovid() {
         search(item.county_name,item.state_name, trailArray, item);
       });
       // for testing
-      // console.log(trailArray)
+      console.log(trailArray)
 
   })
 }
