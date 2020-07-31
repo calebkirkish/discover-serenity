@@ -312,7 +312,19 @@ function estimatePopularity(trailArray) {
 
     trail.popularity = popularity;
   });
+  function trailSort(a, b) {
+    var trailPopA = a.popularity;
+    var trailPopB = b.popularity;
 
+    let comparison = 0;
+    if (trailPopA < trailPopB) {
+      comparison = -1;
+    } else if (trailPopA > trailPopB) {
+      comparison = 1;
+    }
+    return comparison;
+  }
+  trailArray.sort(trailSort)
 }
 
 function getLocation() {
