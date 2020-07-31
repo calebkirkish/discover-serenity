@@ -63,6 +63,7 @@ class Trail {
 }
 
 function getTrailData(lat, lon) {
+  $(".slideShow").empty()
   $("#two").empty();
   trailArray = [];
   // API Call to Hiking Project
@@ -157,23 +158,11 @@ var hikingQueryURL =
         var lon = trail.longitude;
         getCounty(lat, lon, trail);
         estimatePopularity(trailArray);
-        // console.log(result);
-        // trail.county = result.currentCounty;
-        // trail.state = result.currentState;
+
       });
 
-      // Here we need another .then for covid data function that passes in the trailArray. Within the covid function it will make one API call for the state (if there are multiple states it will need to handle that with another call)
-      // foreach trail it will look at the trail.county and then search the stateData array for that county and add the applicable covid risk to that trail. Will need to write an error that will display unknown if the code
-
-      // this will be followed by a .done function that creates tiles for the trail data
-
-      console.log(trailArray);
-      
-
-      // all code can go here after AJAX calls
-
   
-    }).done(function(){
+    }).then(getCovid).done(function(){
       populateTiles();
       searchReset();
       $(".trail-tile").on("click", function () {
@@ -223,7 +212,6 @@ var hikingQueryURL =
     })
 
     
-  // Parse our new local storage item so that it can be referenced
 }
 
 function getCounty(lat, lon, trail) {
@@ -253,7 +241,7 @@ function getCounty(lat, lon, trail) {
   }).then(function (response) {
     // console.log(response);
     if (response.error_message) {
-      // If API invalid or response is 200 but google throwns error
+      // If API invalid or response is 200 but google throws error
       //   console.log(response.error_message);
       alert("Something went wrong with your request.");
     }
@@ -323,6 +311,44 @@ function getLocation() {
   }
 }
 
+function getCovid() {
+  // another possible API that seems to be broken https://corona.lmao.ninja/docs/#/Covid-19%20NYT/get_v3_covid_19_nyt_counties
+  $.ajax({
+      url: "https://covid19-us-api.herokuapp.com/county",
+      method: "GET"
+  }).then(function (response) {
+      response.message.forEach(item => {
+        search(item.county_name,item.state_name, trailArray, item);
+      });
+      // for testing
+      // console.log(trailArray)
+
+  })
+}
+
+function search(countyKey,stateKey, trailArray, obj) {
+  for (var i = 0; i < trailArray.length; i++) {
+      if (trailArray[i].county === countyKey && trailArray[i].state === stateKey) {
+        // Calculate risk factor .. this still needs refinement
+
+        var cases = obj.new;
+        var total = obj.confirmed;
+        
+        var status = 0;
+
+        if (cases > 100 || total > 1200) {
+          status = 3;
+        } else if (cases > 80 || total > 800) {
+          status = 2;
+        } else if (cases > 1 || total){
+          status = 1;
+        } 
+          trailArray[i].covidStatus = status;
+      }
+  }
+
+}
+
 function geoSuccess(position) {
   var latitude = position.coords.latitude;
   var longitude = position.coords.longitude;
@@ -344,7 +370,6 @@ function userSearch(query) {
     query +
     "&sensor=false&key=" +
     gKey;
-  console.log(url);
   $.ajax({
     method: "GET",
     url: url,
@@ -363,7 +388,7 @@ function userSearch(query) {
     },
   }).then(function (response) {
     if (response.error_message) {
-      // If API invalid or response is 200 but google throwns error
+      // If API invalid or response is 200 but google throws error
       alert("Something went wrong with your request.");
     }
     if (response.status === "ZERO_RESULTS") {
@@ -422,11 +447,7 @@ function populateTiles() {
     var pStatus = $("<p>");
     var spanStatus = $("<span class='status'>");
     var riskRatingP = $("<p class='risk-rating'>").text("Covid-19 factor: ");
-    var circleChecked = $("<span class='fas fa-circle checked icon'>");
-    var circleBlanked = $("<span class='fas fa-circle icon'>");
     var popularityRating = $("<p class='popularity'>").text("Popularity: ");
-    var hikingCheck = $("<span class='fas fa-hiking checked icon'>");
-    var hikingBlanked = $("<span class='fas fa-hiking icon'>");
     var countyP = $("<p>");
     var countySpan = $("<span class='county'>");
 
@@ -472,6 +493,58 @@ function populateTiles() {
 }
 
 $(document).ready(function () {
+
+// Adding class slideShowContainer
+$('.page-container').addClass('slideShowContainer');
+
+// Appending images for slideShow
+$('.slideShowContainer').append(
+  "<ul class='slideShow'>" 
+  + "<li><img class='wallpaper' src='img/annette-lake-wa.jpg' alt='Annette Lake WA'/></li>" 
+  + "<li><img class='wallpaper' src='img/russian-guich-ca.jpg' alt='Russian Guich CA'/></li>"
+  + "<li><img class='wallpaper' src='img/hoh-rain-forest-wa.jpg' alt='Hoh Rain Forest WA'/></li>" 
+  + "<li><img class='wallpaper' src='img/twin-falls-wa.jpg' alt='Twin Falls WA'/></li>"
+  + "<li><img class='wallpaper' src='img/muir-woods-ca.jpg' alt='Muir Woods CA'/></li>" 
+  + "<li><img class='wallpaper' src='img/rattlesnake-ledge-wa.jpg' alt='Rattlesnake Ledge WA'/></li>"
+  + "</ul>"
+);
+
+// Function slideShow pre-loader
+$(function() {
+  var slides = $(' .slideShow>li');
+  var slideCount = 0;
+  var totalSlides = slides.length;
+  var slideCache = [];
+
+  (function preLoader() {
+    if (slideCount < totalSlides) {
+      //Load images
+      slideCache[slideCount] = new Image();
+      slideCache[slideCount].src = slides.eq(slideCount).find('img').attr('src');
+      slideCache[slideCount].onload = function() {
+        slideCount++;
+        preLoader();
+      }
+    } else {
+      //Run the slideShow
+      slideCount = 0;
+      slideShow();
+    }
+  }());
+
+  function slideShow() {
+    slides.fadeOut()
+    // Run timer and fade in / fade out
+    slides.eq(slideCount).fadeIn(1000).delay(2000).fadeOut(1000, function() {
+      slideCount < totalSlides - 1 ? slideCount ++ : slideCount = 0;
+      slideShow();
+    });
+  }
+});
+
+
+
+
   // get current location
 
   myLocation.on("click", getLocation);
@@ -496,7 +569,7 @@ $(document).ready(function () {
 
   // Create tiles here
 
-  // after tiles have been created reenable search input
+  // after tiles have been created re-enable search input
   // searchReset()
 
   // Trail detail modal
