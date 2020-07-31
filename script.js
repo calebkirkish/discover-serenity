@@ -164,10 +164,16 @@ var hikingQueryURL =
   
     }).then(getCovid).then(function(){
       setTimeout(function() {
+        // fallback incase a county was not found
+        trailArray.forEach((trail) => {
+          if (!trail.county) {
+            trailArray = trailArray.filter(item => item !== trail)
+          }
+        })
         populateTiles()
         searchReset();
         $(".trail-tile").on("click", modalData)
-      }, 2000)
+      }, 3000)
       // populateTiles();
       
      
@@ -364,9 +370,9 @@ function search(countyKey,stateKey, trailArray, obj) {
         
         var status = 0;
 
-        if (cases > 100 || total > 1200) {
+        if (cases > 100 || total > 3000) {
           status = 3;
-        } else if (cases > 80 || total > 800) {
+        } else if (cases > 80 || total > 1200) {
           status = 2;
         } else if (cases > 1 || total){
           status = 1;
@@ -513,10 +519,13 @@ function populateTiles() {
       $(popularityRating).append(popL5)
     }
 
-    $(trailInfo).append(countyP)
-    $(countyP).text("County: ");
-    $(countyP).append(countySpan);
-    $(countySpan).text(county);
+    
+      $(trailInfo).append(countyP)
+      $(countyP).text("County: ");
+      console.log(trailArray[i].county)
+      $(countyP).append(countySpan);
+      $(countySpan).text(county);
+    
   }
 
 }
