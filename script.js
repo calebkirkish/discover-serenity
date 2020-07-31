@@ -94,6 +94,38 @@ var hikingQueryURL =
       result = response.trails;
 
       for (var i = 0; i < result.length; i++) {
+
+        var difficulty = "";
+
+        switch (result[i].difficulty) {
+          case "green":
+            difficulty = "Easy"
+            break;
+
+          case "greenBlue":
+            difficulty = "Mild"
+            break;
+
+          case "blue":
+            difficulty = "Moderate"
+            break;
+          case "blueBlack":
+            difficulty = "Challenging"
+            break;
+          case "black":
+            difficulty = "Hard"
+            break;
+
+          case "dblack":
+            difficulty = "Very hard"
+            break;
+        
+          default:
+            difficulty = result[i].difficulty
+            break;
+        }
+
+
         // If a trail is closed, we don't push it to our trail array
         if (result[i].conditionStatus.includes("Closed")) {
           // We won't actually do anything with the variable "x", it's just a placeholder
@@ -103,7 +135,6 @@ var hikingQueryURL =
           var id = result[i].id;
           var name = result[i].name;
           var summary = result[i].summary;
-          var difficulty = result[i].difficulty;
           var stars = result[i].stars;
           var starVotes = result[i].starVotes;
           var location = result[i].location;
@@ -153,21 +184,28 @@ var hikingQueryURL =
       // take the latitude and longitude from the hiking project API call and plug them into the getCounty() function
     })
     .then(function () {
-      trailArray.forEach((trail) => {
-        var lat = trail.latitude;
-        var lon = trail.longitude;
-        getCounty(lat, lon, trail);
+      
+        getCounty();
         estimatePopularity(trailArray);
 
-      });
 
   
     }).then(getCovid).then(function(){
       setTimeout(function() {
+        // fallback incase a county was not found
+        trailArray.forEach((trail) => {
+          if (!trail.county) {
+            trailArray = trailArray.filter(item => item !== trail)
+          }
+          // filter out trails that are probably not day hikes (future feature would be to allow user to choose this)
+          if (trail.length > 15) {
+            trailArray = trailArray.filter(item => item !== trail)
+          }
+        })
         populateTiles()
         searchReset();
         $(".trail-tile").on("click", modalData)
-      }, 2000)
+      }, 3000)
       // populateTiles();
       
      
@@ -210,6 +248,7 @@ var hikingQueryURL =
           $("#summary").text(targetTrail.summary);
           $("#more-info").attr("href", targetTrail.url);
           $("#modal-image").attr("src", targetTrail.image);
+          $("#length").text(targetTrail.length)
       
           // activate modal
           $(".small.modal")
@@ -222,7 +261,10 @@ var hikingQueryURL =
     
 }
 
-function getCounty(lat, lon, trail) {
+function getCounty() {
+  trailArray.forEach((trail) => {
+    var lat = trail.latitude;
+    var lon = trail.longitude;
   var queryLocation = lat + ", " + lon;
   var url =
     "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
@@ -282,8 +324,8 @@ function getCounty(lat, lon, trail) {
     trail.county = itemCounty;
     trail.state = itemState;
   });
+})
 }
-
 
 function estimatePopularity(trailArray) {
   trailArray.forEach((trail) => {
@@ -312,7 +354,19 @@ function estimatePopularity(trailArray) {
 
     trail.popularity = popularity;
   });
+  function trailSort(a, b) {
+    var trailPopA = a.popularity;
+    var trailPopB = b.popularity;
 
+    let comparison = 0;
+    if (trailPopA < trailPopB) {
+      comparison = -1;
+    } else if (trailPopA > trailPopB) {
+      comparison = 1;
+    }
+    return comparison;
+  }
+  trailArray.sort(trailSort)
 }
 
 function getLocation() {
@@ -352,9 +406,9 @@ function search(countyKey,stateKey, trailArray, obj) {
         
         var status = 0;
 
-        if (cases > 100 || total > 1200) {
+        if (cases > 100 || total > 3000) {
           status = 3;
-        } else if (cases > 80 || total > 800) {
+        } else if (cases > 80 || total > 1200) {
           status = 2;
         } else if (cases > 1 || total){
           status = 1;
@@ -501,10 +555,13 @@ function populateTiles() {
       $(popularityRating).append(popL5)
     }
 
-    $(trailInfo).append(countyP)
-    $(countyP).text("County: ");
-    $(countyP).append(countySpan);
-    $(countySpan).text(county);
+    
+      $(trailInfo).append(countyP)
+      $(countyP).text("County: ");
+      console.log(trailArray[i].county)
+      $(countyP).append(countySpan);
+      $(countySpan).text(county);
+    
   }
 
 }
