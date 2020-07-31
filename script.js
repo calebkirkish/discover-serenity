@@ -178,7 +178,7 @@ function getCounty(lat, lon, trail) {
   }).then(function (response) {
     // console.log(response);
     if (response.error_message) {
-      // If API invalid or response is 200 but google throwns error
+      // If API invalid or response is 200 but google throws error
       //   console.log(response.error_message);
       alert("Something went wrong with your request.");
     }
@@ -325,7 +325,7 @@ function userSearch(query) {
     },
   }).then(function (response) {
     if (response.error_message) {
-      // If API invalid or response is 200 but google throwns error
+      // If API invalid or response is 200 but google throws error
       alert("Something went wrong with your request.");
     }
     if (response.status === "ZERO_RESULTS") {
@@ -368,6 +368,58 @@ function searchReset() {
 }
 
 $(document).ready(function () {
+
+// Adding class slideShowContainer
+$('.page-container').addClass('slideShowContainer');
+
+// Appending images for slideShow
+$('.slideShowContainer').append(
+  "<ul class='slideShow'>" 
+  + "<li><img class='wallpaper' src='img/annette-lake-wa.jpg' alt='Annette Lake WA'/></li>" 
+  + "<li><img class='wallpaper' src='img/russian-guich-ca.jpg' alt='Russian Guich CA'/></li>"
+  + "<li><img class='wallpaper' src='img/hoh-rain-forest-wa.jpg' alt='Hoh Rain Forest WA'/></li>" 
+  + "<li><img class='wallpaper' src='img/twin-falls-wa.jpg' alt='Twin Falls WA'/></li>"
+  + "<li><img class='wallpaper' src='img/muir-woods-ca.jpg' alt='Muir Woods CA'/></li>" 
+  + "<li><img class='wallpaper' src='img/rattlesnake-ledge-wa.jpg' alt='Rattlesnake Ledge WA'/></li>"
+  + "</ul>"
+);
+
+// Function slideShow pre-loader
+$(function() {
+  var slides = $(' .slideShow>li');
+  var slideCount = 0;
+  var totalSlides = slides.length;
+  var slideCache = [];
+
+  (function preLoader() {
+    if (slideCount < totalSlides) {
+      //Load images
+      slideCache[slideCount] = new Image();
+      slideCache[slideCount].src = slides.eq(slideCount).find('img').attr('src');
+      slideCache[slideCount].onload = function() {
+        slideCount++;
+        preLoader();
+      }
+    } else {
+      //Run the slideShow
+      slideCount = 0;
+      slideShow();
+    }
+  }());
+
+  function slideShow() {
+    slides.fadeOut()
+    // Run timer and fade in / fade out
+    slides.eq(slideCount).fadeIn(1000).delay(2000).fadeOut(1000, function() {
+      slideCount < totalSlides - 1 ? slideCount ++ : slideCount = 0;
+      slideShow();
+    });
+  }
+});
+
+
+
+
   // get current location
 
   myLocation.on("click", getLocation);
@@ -392,7 +444,7 @@ $(document).ready(function () {
 
   // Create tiles here
 
-  // after tiles have been created reenable search input
+  // after tiles have been created re-enable search input
   // searchReset()
 
   // Trail detail modal
