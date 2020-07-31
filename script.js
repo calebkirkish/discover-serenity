@@ -584,51 +584,5 @@ $(function() {
     }
   });
 
-  // Create tiles here
-
-  // after tiles have been created re-enable search input
-  // searchReset()
-
-  // Trail detail modal
-  // $(".trail-tile").on("click", function () {
-  //   // Here we will need to populate the trail modal
-  //   var id = $(this).attr("data-trailid");
-  //   console.log(id)
-  //   var targetTrail = trailArray.find(item => item.id == id);
-  //   console.log(targetTrail) 
-  //   $("#modal-name").text(targetTrail.name);
-
-  //   $(".status").text(targetTrail.conditionStatus);
-
-  //   if (targetTrail.covidStatus === 3) {
-  //     $("#covid-rating").append(riskL3)
-  //   } else if (targetTrail.covidStatus === 2) {
-  //     $("#covid-rating").append(riskL2)
-  //   } else {
-  //     $("#covid-rating").append(riskL1)
-  //   }
-
-  //   if (targetTrail.popularity === 1) {
-  //     $("#pop-rating").append(popL1)
-  //   } else if (targetTrail.popularity === 2){
-  //     $("#pop-rating").append(popL2)
-  //   } else if(targetTrail.popularity === 3){
-  //     $("#pop-rating").append(popL3)
-  //   } else if(targetTrail.popularity === 4){
-  //     $("#pop-rating").append(popL4)
-  //   } else {
-  //     $("#pop-rating").append(popL5)
-  //   }
-   
-  //   $("#difficulty").text(targetTrail.difficulty);
-  //   $("#location").text(targetTrail.county + " County, " + targetTrail.state);
-  //   $("#summary").text(targetTrail.summary);
-  //   $("#more-info").attr("href", targetTrail.url);
-  //   $("#modal-image").attr("src", targetTrail.image);
-
-  //   // activate modal
-  //   $(".small.modal")
-  //     .modal("setting", "transition", "vertical flip")
-  //     .modal("toggle", "show-dimmer");
-  // });
+  
 });
