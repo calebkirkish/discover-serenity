@@ -9,6 +9,17 @@ var result = "";
 var myLocation = $("#current-location");
 var searchField = $("#search-field");
 var searchDiv = $("#search-div");
+
+var riskL1 = "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle icon'></span><span class='fas fa-circle icon'></span>";
+var riskL2 = "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span><span class='fas fa-circle icon'></span>";
+var riskL3 = "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span>"
+
+var popL1 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>"
+var popL2 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>"
+var popL3 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>"
+var popL4 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span>"
+var popL5 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span>"
+
 // Trail Class used for creating object
 class Trail {
   constructor(
@@ -25,7 +36,8 @@ class Trail {
     descent,
     longitude,
     latitude,
-    conditionStatus
+    conditionStatus,
+    url
   ) {
     this.id = id;
     this.name = name;
@@ -41,6 +53,7 @@ class Trail {
     this.longitude = longitude;
     this.latitude = latitude;
     this.conditionStatus = conditionStatus;
+    this.url = url;
     this.userImg = image;
     this.covidStatus = "";
     this.county = "";
@@ -50,14 +63,16 @@ class Trail {
 }
 
 function getTrailData(lat, lon) {
-trailArray = [];
+  $(".slideShow").empty()
+  $("#two").empty();
+  trailArray = [];
   // API Call to Hiking Project
   // Variables for our API call.  Lat, lon, distance will be determined by the end user but are hard-coded for now
 var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
 // var lat = 47.6062
 // var lon = -122.3321
-var distance = 100;
-var maxResults = 10;
+var distance = 70;
+var maxResults = 50;
 var hikingAPIkey = "200842322-939f54646af26cdd74e5614a1181a8da";
 var hikingQueryURL =
   preHikingQueryURL +
@@ -99,8 +114,13 @@ var hikingQueryURL =
           var longitude = result[i].longitude;
           var latitude = result[i].latitude;
           var conditionStatus = result[i].conditionStatus;
+          var url = result[i].url
           // this puts the image URL in a format that we can use
           image.replace(/\//g, "/");
+          if (!image) {
+            image = "img/fallback-img.jpg"
+          }
+          url.replace(/\//g, "/");
 
           // push the result from the JSON object into the Trail object(class), then push that object into the trail Array
           Trail.trailID = result[i].trailID;
@@ -119,7 +139,8 @@ var hikingQueryURL =
             descent,
             longitude,
             latitude,
-            conditionStatus
+            conditionStatus,
+            url
           );
           trailArray.push(currentTrail);
 
@@ -141,11 +162,61 @@ var hikingQueryURL =
       });
 
   
-    }).then(getCovid).done(function() {
-      //create trail tiles here
-      // add event listeners after creating tiles
-      //populate modals
-      searchReset();
+    }).then(getCovid).then(function(){
+      setTimeout(function() {
+        populateTiles()
+        searchReset();
+        $(".trail-tile").on("click", modalData)
+      }, 2000)
+      // populateTiles();
+      
+     
+        //modal date removal
+
+      function modalData() {
+        $("#covid-rating").empty();
+        $("#pop-rating").empty();
+          // Here we will need to populate the trail modal
+          var id = $(this).attr("data-trailid");
+          // console.log(id)
+          var targetTrail = trailArray.find(item => item.id == id);
+          // console.log(targetTrail) 
+          $("#modal-name").text(targetTrail.name);
+      
+          $(".status").text(targetTrail.conditionStatus);
+      
+          if (targetTrail.covidStatus === 3) {
+            $("#covid-rating").append(riskL3)
+          } else if (targetTrail.covidStatus === 2) {
+            $("#covid-rating").append(riskL2)
+          } else {
+            $("#covid-rating").append(riskL1)
+          }
+      
+          if (targetTrail.popularity === 1) {
+            $("#pop-rating").append(popL1)
+          } else if (targetTrail.popularity === 2){
+            $("#pop-rating").append(popL2)
+          } else if(targetTrail.popularity === 3){
+            $("#pop-rating").append(popL3)
+          } else if(targetTrail.popularity === 4){
+            $("#pop-rating").append(popL4)
+          } else {
+            $("#pop-rating").append(popL5)
+          }
+        
+          $("#difficulty").text(targetTrail.difficulty);
+          $("#location").text(targetTrail.county + " County, " + targetTrail.state);
+          $("#summary").text(targetTrail.summary);
+          $("#more-info").attr("href", targetTrail.url);
+          $("#modal-image").attr("src", targetTrail.image);
+      
+          // activate modal
+          $(".small.modal")
+            .modal("setting", "transition", "vertical flip")
+            .modal("toggle", "show-dimmer");
+      };
+    
     })
 
     
@@ -158,7 +229,7 @@ function getCounty(lat, lon, trail) {
     queryLocation +
     "&sensor=false&key=" +
     gKey;
-  //   console.log(url);
+    // console.log(url);
   $.ajax({
     method: "GET",
     url: url,
@@ -187,19 +258,27 @@ function getCounty(lat, lon, trail) {
     }
     var itemState = "";
     var itemCounty = "";
-    var components = response.results[0].address_components; //this is an array
-    components.forEach((item) => {
-      var checkItem = item.types[0];
-      if (checkItem === "administrative_area_level_1") {
-        itemState = item.long_name;
-        // console.log(itemState);
-      }
-      if (checkItem === "administrative_area_level_2") {
-        itemCounty = item.long_name;
-        itemCounty = itemCounty.replace("County", "").trim();
-        // console.log(itemCounty);
-      }
-    });
+    for (var i = 0; i < response.results.length; i++) {
+      searchAddress(i)
+    }
+
+    
+    function searchAddress(i) {
+      var components = response.results[i].address_components; //this is an array
+      components.forEach((item) => {
+        var checkItem = item.types[0];
+        if (checkItem === "administrative_area_level_1") {
+          itemState = item.long_name;
+          // console.log(itemState);
+        }
+        if (checkItem === "administrative_area_level_2") {
+          itemCounty = item.long_name;
+          itemCounty = itemCounty.replace("County", "").trim();
+          // console.log(itemCounty);
+        }
+        
+      });
+    }
     trail.county = itemCounty;
     trail.state = itemState;
   });
@@ -367,6 +446,69 @@ function searchReset() {
   myLocation.on("click", getLocation);
 }
 
+function populateTiles() {
+  
+    
+  for (var i = 0; i < trailArray.length; i++){
+    // console.log(trailArray[i])
+
+    var trailTile = $("<div class='trail-tile'>");
+    var imgBox = $("<div class='img-box'>");
+    var trailImg = $("<img class='trail-img'>");
+    var trailName = $("<h4 class='trail-name'>");
+    var county = trailArray[i].county;
+    // console.log(county)
+    // console.log(trailArray[i].county)
+    // console.log(trailArray[i].id)
+    // console.log(trailArray[i].covidStatus)
+    $(trailName).text(trailArray[i].name)
+    var trailInfo = $("<div class='trail-info'>");
+    var pStatus = $("<p>");
+    // var spanStatus = $("<span class='status'>");
+    var riskRatingP = $("<p class='risk-rating'>").text("Covid-19 factor: ");
+    var popularityRating = $("<p class='popularity'>").text("Popularity: ");
+    var countyP = $("<p>");
+    var countySpan = $("<span class='county'>");
+
+    $("#two").append(trailTile);
+    $(trailTile).append(imgBox);
+    $(trailTile).attr("data-trailid", trailArray[i].id)
+    $(imgBox).append(trailImg);
+    $(trailImg).attr("src", trailArray[i].image)
+    $(trailTile).append(trailName);
+    $(trailTile).append(trailInfo);
+    $(trailInfo).append(pStatus);
+    $(trailInfo).append(riskRatingP);
+    if (trailArray[i].covidStatus === 3) {
+      $(riskRatingP).append(riskL3)
+    } else if (trailArray[i].covidStatus === 2) {
+      $(riskRatingP).append(riskL2)
+    } else {
+      $(riskRatingP).append(riskL1)
+    }
+    
+    $(trailInfo).append(popularityRating);
+
+    if(trailArray[i].popularity === 1) {
+      $(popularityRating).append(popL1)
+    } else if (trailArray[i].popularity === 2){
+      $(popularityRating).append(popL2)
+    } else if(trailArray[i].popularity === 3){
+      $(popularityRating).append(popL3)
+    } else if(trailArray[i].popularity === 4){
+      $(popularityRating).append(popL4)
+    } else {
+      $(popularityRating).append(popL5)
+    }
+
+    $(trailInfo).append(countyP)
+    $(countyP).text("County: ");
+    $(countyP).append(countySpan);
+    $(countySpan).text(county);
+  }
+
+}
+
 $(document).ready(function () {
 
 // Adding class slideShowContainer
@@ -442,18 +584,5 @@ $(function() {
     }
   });
 
-  // Create tiles here
-
-  // after tiles have been created re-enable search input
-  // searchReset()
-
-  // Trail detail modal
-  $(".trail-tile").on("click", function () {
-    // Here we will need to populate the trail modal
-
-    // activate modal
-    $(".small.modal")
-      .modal("setting", "transition", "vertical flip")
-      .modal("toggle", "show-dimmer");
-  });
+  
 });
