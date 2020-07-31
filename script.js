@@ -267,15 +267,19 @@ function search(countyKey,stateKey, trailArray, obj) {
   for (var i = 0; i < trailArray.length; i++) {
       if (trailArray[i].county === countyKey && trailArray[i].state === stateKey) {
         // Calculate risk factor .. this still needs refinement
-        var percentNew = Math.round((obj.new + 1) / obj.confirmed * 100);
+
+        var cases = obj.new;
+        var total = obj.confirmed;
+        
         var status = 0;
-        if (obj.new > 100 || percentNew > 10) {
+
+        if (cases > 100 || total > 1200) {
           status = 3;
-        } else if (obj.new > 80 || percentNew > 5) {
+        } else if (cases > 80 || total > 800) {
           status = 2;
-        } else {
+        } else if (cases > 1 || total){
           status = 1;
-        }
+        } 
           trailArray[i].covidStatus = status;
       }
   }
