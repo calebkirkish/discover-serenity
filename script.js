@@ -50,6 +50,7 @@ class Trail {
 }
 
 function getTrailData(lat, lon) {
+trailArray = [];
   // API Call to Hiking Project
   // Variables for our API call.  Lat, lon, distance will be determined by the end user but are hard-coded for now
 var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
@@ -136,25 +137,18 @@ var hikingQueryURL =
         var lon = trail.longitude;
         getCounty(lat, lon, trail);
         estimatePopularity(trailArray);
-        // console.log(result);
-        // trail.county = result.currentCounty;
-        // trail.state = result.currentState;
+
       });
 
-      // Here we need another .then for covid data function that passes in the trailArray. Within the covid function it will make one API call for the state (if there are multiple states it will need to handle that with another call)
-      // foreach trail it will look at the trail.county and then search the stateData array for that county and add the applicable covid risk to that trail. Will need to write an error that will display unknown if the code
-
-      // this will be followed by a .done function that creates tiles for the trail data
-
-      console.log(trailArray);
-
-      // all code can go here after AJAX calls
-
   
-    });
+    }).then(getCovid).done(function() {
+      //create trail tiles here
+      // add event listeners after creating tiles
+      //populate modals
+      searchReset();
+    })
 
     
-  // Parse our new local storage item so that it can be referenced
 }
 
 function getCounty(lat, lon, trail) {
@@ -254,6 +248,44 @@ function getLocation() {
   }
 }
 
+function getCovid() {
+  // another possible API that seems to be broken https://corona.lmao.ninja/docs/#/Covid-19%20NYT/get_v3_covid_19_nyt_counties
+  $.ajax({
+      url: "https://covid19-us-api.herokuapp.com/county",
+      method: "GET"
+  }).then(function (response) {
+      response.message.forEach(item => {
+        search(item.county_name,item.state_name, trailArray, item);
+      });
+      // for testing
+      // console.log(trailArray)
+
+  })
+}
+
+function search(countyKey,stateKey, trailArray, obj) {
+  for (var i = 0; i < trailArray.length; i++) {
+      if (trailArray[i].county === countyKey && trailArray[i].state === stateKey) {
+        // Calculate risk factor .. this still needs refinement
+
+        var cases = obj.new;
+        var total = obj.confirmed;
+        
+        var status = 0;
+
+        if (cases > 100 || total > 1200) {
+          status = 3;
+        } else if (cases > 80 || total > 800) {
+          status = 2;
+        } else if (cases > 1 || total){
+          status = 1;
+        } 
+          trailArray[i].covidStatus = status;
+      }
+  }
+
+}
+
 function geoSuccess(position) {
   var latitude = position.coords.latitude;
   var longitude = position.coords.longitude;
@@ -275,7 +307,6 @@ function userSearch(query) {
     query +
     "&sensor=false&key=" +
     gKey;
-  console.log(url);
   $.ajax({
     method: "GET",
     url: url,
