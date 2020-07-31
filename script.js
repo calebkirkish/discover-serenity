@@ -167,7 +167,7 @@ var hikingQueryURL =
         populateTiles()
         searchReset();
         $(".trail-tile").on("click", modalData)
-      }, 2000)
+      }, 600)
       // populateTiles();
       
      
@@ -229,7 +229,7 @@ function getCounty(lat, lon, trail) {
     queryLocation +
     "&sensor=false&key=" +
     gKey;
-    console.log(url);
+    // console.log(url);
   $.ajax({
     method: "GET",
     url: url,
@@ -258,22 +258,26 @@ function getCounty(lat, lon, trail) {
     }
     var itemState = "";
     var itemCounty = "";
-    var components = response.results[0].address_components; //this is an array
-    components.forEach((item) => {
-      var checkItem = item.types[0];
-      if (checkItem === "administrative_area_level_1") {
-        itemState = item.long_name;
-        console.log(itemState);
-      }
-      if (checkItem === "administrative_area_level_2") {
-        itemCounty = item.long_name;
-        itemCounty = itemCounty.replace("County", "").trim();
-        console.log(itemCounty);
-      }
-      
-    });
-    if (!itemCounty) {
-      console.log(response)
+    for (var i = 0; i < response.results.length; i++) {
+      searchAddress(i)
+    }
+
+    
+    function searchAddress(i) {
+      var components = response.results[i].address_components; //this is an array
+      components.forEach((item) => {
+        var checkItem = item.types[0];
+        if (checkItem === "administrative_area_level_1") {
+          itemState = item.long_name;
+          // console.log(itemState);
+        }
+        if (checkItem === "administrative_area_level_2") {
+          itemCounty = item.long_name;
+          itemCounty = itemCounty.replace("County", "").trim();
+          // console.log(itemCounty);
+        }
+        
+      });
     }
     trail.county = itemCounty;
     trail.state = itemState;
