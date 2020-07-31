@@ -25,7 +25,8 @@ class Trail {
     descent,
     longitude,
     latitude,
-    conditionStatus
+    conditionStatus,
+    url
   ) {
     this.id = id;
     this.name = name;
@@ -41,6 +42,7 @@ class Trail {
     this.longitude = longitude;
     this.latitude = latitude;
     this.conditionStatus = conditionStatus;
+    this.url = url;
     this.userImg = image;
     this.covidStatus = "";
     this.county = "";
@@ -98,8 +100,10 @@ var hikingQueryURL =
           var longitude = result[i].longitude;
           var latitude = result[i].latitude;
           var conditionStatus = result[i].conditionStatus;
+          var url = result[i].url
           // this puts the image URL in a format that we can use
           image.replace(/\//g, "/");
+          url.replace(/\//g, "/");
 
           // push the result from the JSON object into the Trail object(class), then push that object into the trail Array
           Trail.trailID = result[i].trailID;
@@ -118,7 +122,8 @@ var hikingQueryURL =
             descent,
             longitude,
             latitude,
-            conditionStatus
+            conditionStatus,
+            url
           );
           trailArray.push(currentTrail);
 

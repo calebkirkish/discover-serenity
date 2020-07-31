@@ -86,6 +86,9 @@ p {
   float: right;
   padding: 30px 20px 10px 10px;
 }
+.ui.button.cancel:hover {
+  background-color: transparent;
+}
 
 .ui.small.modal > .header {
   border-radius: 18px 18px 0 0;
@@ -101,10 +104,12 @@ p {
 .modal-img {
   width: 50%;
   border-radius: var(--tile-border-radius);
+  object-fit: cover;
 }
 
 .modal-body {
   margin: 2rem;
+  max-width: 40%;
 }
 
 :root {
@@ -179,27 +184,39 @@ p {
   width: calc(100% + 40px);
   margin-left: -20px;
   margin-top: -20px;
-  height: 80%;
+  height: 232px;
 }
 .trail-tile img {
   width: 100%;
   object-fit: cover;
   height: 90%;
+  max-height: 228px;
   border-radius: var(--top-border-radius);
+}
+
+.fas {
+  padding: 2px;
+}
+
+#more-info {
+  color: var(--dark-primary-color)
 }
 
 /* risk */
 .risk-rating .icon {
-  font-size: x-small;
+  font-size: .75rem;
 }
 
 /* popularity */
 .popularity .icon {
-  font-size: small;
+  font-size: 1.25rem;
 }
 
 .checked {
   color: white;
+}
+.county {
+  color:#fff
 }
 
 /* maintains margin on the sides of the tiles at smaller screen sizes */
