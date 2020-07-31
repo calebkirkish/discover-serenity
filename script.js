@@ -71,8 +71,8 @@ function getTrailData(lat, lon) {
 var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
 // var lat = 47.6062
 // var lon = -122.3321
-var distance = 100;
-var maxResults = 10;
+var distance = 70;
+var maxResults = 50;
 var hikingAPIkey = "200842322-939f54646af26cdd74e5614a1181a8da";
 var hikingQueryURL =
   preHikingQueryURL +
@@ -118,7 +118,7 @@ var hikingQueryURL =
           // this puts the image URL in a format that we can use
           image.replace(/\//g, "/");
           if (!image) {
-            image = "./150.png"
+            image = "img/150.png"
           }
           url.replace(/\//g, "/");
 
@@ -445,7 +445,7 @@ function populateTiles() {
     $(trailName).text(trailArray[i].name)
     var trailInfo = $("<div class='trail-info'>");
     var pStatus = $("<p>");
-    var spanStatus = $("<span class='status'>");
+    // var spanStatus = $("<span class='status'>");
     var riskRatingP = $("<p class='risk-rating'>").text("Covid-19 factor: ");
     var popularityRating = $("<p class='popularity'>").text("Popularity: ");
     var countyP = $("<p>");
@@ -459,7 +459,6 @@ function populateTiles() {
     $(trailTile).append(trailName);
     $(trailTile).append(trailInfo);
     $(trailInfo).append(pStatus);
-    $(pStatus).append(spanStatus);
     $(trailInfo).append(riskRatingP);
     if (trailArray[i].covidStatus === 3) {
       $(riskRatingP).append(riskL3)
