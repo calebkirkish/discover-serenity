@@ -118,7 +118,7 @@ var hikingQueryURL =
           // this puts the image URL in a format that we can use
           image.replace(/\//g, "/");
           if (!image) {
-            image = "img/150.png"
+            image = "img/fallback-img.jpg"
           }
           url.replace(/\//g, "/");
 
@@ -167,7 +167,7 @@ var hikingQueryURL =
         populateTiles()
         searchReset();
         $(".trail-tile").on("click", modalData)
-      }, 600)
+      }, 2000)
       // populateTiles();
       
      
