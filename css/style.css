@@ -22,11 +22,14 @@ p {
   border-radius: var(--tile-border-radius);
 }
 
-.full-image {
-  background-image: url("../img/AnnettePH.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: var(--tile-border-radius);
+/* Images on slideShow */
+.wallpaper {
+  margin-top: 0;
+  min-height: 100vh;
+  width: 100%;
+  object-fit: cover;
+  display: flex;
+  padding: 1px 0 56px; /* Fit images between Header and Footer */
 }
 
 .wrapper {
