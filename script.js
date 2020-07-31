@@ -169,6 +169,10 @@ var hikingQueryURL =
           if (!trail.county) {
             trailArray = trailArray.filter(item => item !== trail)
           }
+          // filter out trails that are probably not day hikes (future feature would be to allow user to choose this)
+          if (trail.length > 15) {
+            trailArray = trailArray.filter(item => item !== trail)
+          }
         })
         populateTiles()
         searchReset();
@@ -216,6 +220,7 @@ var hikingQueryURL =
           $("#summary").text(targetTrail.summary);
           $("#more-info").attr("href", targetTrail.url);
           $("#modal-image").attr("src", targetTrail.image);
+          $("#length").text(targetTrail.length)
       
           // activate modal
           $(".small.modal")
