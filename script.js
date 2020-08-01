@@ -117,7 +117,7 @@ function getTrailData(lat, lon) {
 
         // If a trail is closed, we don't push it to our trail array
         if (result[i].conditionStatus.includes("Closed")) {
-          // We won't actually do anything with the variable "x", it's just a placeholder
+          // This does nothing with result.
           var x = 0;
           // If open we push to the trail array
         } else {
@@ -447,7 +447,6 @@ function userSearch(query) {
 }
 
 function searchReset() {
-  // This will need to be addded after the tiles have been generated as well
   myLocation.off();
   myLocation.html("Use my location <i class='fas fa-location-arrow'></i>");
   searchField.val("");
