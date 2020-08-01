@@ -66,15 +66,11 @@ function getTrailData(lat, lon) {
   $(".slideShow").empty()
   $("#two").empty();
   trailArray = [];
-  // API Call to Hiking Project
-  // Variables for our API call.  Lat, lon, distance will be determined by the end user but are hard-coded for now
-var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
-// var lat = 47.6062
-// var lon = -122.3321
-var distance = 70;
-var maxResults = 50;
-var hikingAPIkey = "200842322-939f54646af26cdd74e5614a1181a8da";
-var hikingQueryURL =
+  var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
+  var distance = 70;
+  var maxResults = 50;
+  var hikingAPIkey = "200842322-939f54646af26cdd74e5614a1181a8da";
+  var hikingQueryURL =
   preHikingQueryURL +
   lat +
   "&lon=" +
@@ -101,11 +97,9 @@ var hikingQueryURL =
           case "green":
             difficulty = "Easy"
             break;
-
           case "greenBlue":
             difficulty = "Mild"
             break;
-
           case "blue":
             difficulty = "Moderate"
             break;
@@ -115,11 +109,9 @@ var hikingQueryURL =
           case "black":
             difficulty = "Hard"
             break;
-
           case "dblack":
             difficulty = "Very hard"
             break;
-        
           default:
             difficulty = result[i].difficulty
             break;
@@ -146,14 +138,13 @@ var hikingQueryURL =
           var latitude = result[i].latitude;
           var conditionStatus = result[i].conditionStatus;
           var url = result[i].url
-          // this puts the image URL in a format that we can use
+
           image.replace(/\//g, "/");
           if (!image) {
             image = "img/fallback-img.jpg"
           }
           url.replace(/\//g, "/");
 
-          // push the result from the JSON object into the Trail object(class), then push that object into the trail Array
           Trail.trailID = result[i].trailID;
 
           currentTrail = new Trail(
@@ -175,18 +166,14 @@ var hikingQueryURL =
           );
           trailArray.push(currentTrail);
 
-          // var county = getCounty(lat, lon);
         }
       }
 
-      // Set our newly created Trail array to local storage, this is the only way I've found for us to reference the array globally
-
-      // take the latitude and longitude from the hiking project API call and plug them into the getCounty() function
     })
     .then(function () {
       
         getCounty();
-        estimatePopularity(trailArray);
+        estimatePopularity();
 
 
   
@@ -206,19 +193,13 @@ var hikingQueryURL =
         searchReset();
         $(".trail-tile").on("click", modalData)
       }, 3000)
-      // populateTiles();
       
-     
-        //modal date removal
-
       function modalData() {
         $("#covid-rating").empty();
         $("#pop-rating").empty();
-          // Here we will need to populate the trail modal
-          var id = $(this).attr("data-trailid");
-          // console.log(id)
-          var targetTrail = trailArray.find(item => item.id == id);
-          // console.log(targetTrail) 
+
+        var id = $(this).attr("data-trailid");
+        var targetTrail = trailArray.find(item => item.id == id);
           $("#modal-name").text(targetTrail.name);
       
           $(".status").text(targetTrail.conditionStatus);
@@ -271,32 +252,22 @@ function getCounty() {
     queryLocation +
     "&sensor=false&key=" +
     gKey;
-    // console.log(url);
   $.ajax({
     method: "GET",
     url: url,
-    complete: function (xhr, statusText) {
-      //confirms success
-      //   console.log(xhr.status);
-    },
-    error: function (jqXHR, error, errorThrown) {
-      //if error with call
+    error: function (jqXHR) {
       if (jqXHR.status && jqXHR.status == 400) {
-        alert(jqXHR.responseText);
+        myLocation.text("Uh-oh! Something went wrong!");
       } else {
-        // console.log(xhr.status);
-        alert("Something went wrong: " + jqXHR.status);
+        myLocation.text("Oh no! Something's broken with " + trail + "! Status: " + jqXHR.status);
       }
     },
   }).then(function (response) {
-    // console.log(response);
     if (response.error_message) {
-      // If API invalid or response is 200 but google throws error
-      //   console.log(response.error_message);
-      alert("Something went wrong with your request.");
+      myLocation.text("Sorry. We had a problem finding your trails.");
     }
     if (response.status === "ZERO_RESULTS") {
-      alert("Sorry, we could not find your location");
+      myLocation.text("No results for your location.");
     }
     var itemState = "";
     var itemCounty = "";
@@ -306,17 +277,15 @@ function getCounty() {
 
     
     function searchAddress(i) {
-      var components = response.results[i].address_components; //this is an array
+      var components = response.results[i].address_components; 
       components.forEach((item) => {
         var checkItem = item.types[0];
         if (checkItem === "administrative_area_level_1") {
           itemState = item.long_name;
-          // console.log(itemState);
         }
         if (checkItem === "administrative_area_level_2") {
           itemCounty = item.long_name;
           itemCounty = itemCounty.replace("County", "").trim();
-          // console.log(itemCounty);
         }
         
       });
@@ -327,7 +296,7 @@ function getCounty() {
 })
 }
 
-function estimatePopularity(trailArray) {
+function estimatePopularity() {
   trailArray.forEach((trail) => {
     var voteCount = trail.starVotes;
     var rating = trail.stars;
@@ -354,35 +323,25 @@ function estimatePopularity(trailArray) {
 
     trail.popularity = popularity;
   });
-  function trailSort(a, b) {
-    var trailPopA = a.popularity;
-    var trailPopB = b.popularity;
 
-    let comparison = 0;
-    if (trailPopA < trailPopB) {
-      comparison = -1;
-    } else if (trailPopA > trailPopB) {
-      comparison = 1;
-    }
-    return comparison;
-  }
   trailArray.sort(trailSort)
 }
 
-function getLocation() {
-  searchField.val("");
-  searchField.attr("disabled", true);
-  searchDiv.addClass("loading");
-  if (!navigator.geolocation) {
-    myLocation.text("Geolocation is not supported by your browser");
-  } else {
-    myLocation.text("Locating…");
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+function trailSort(a, b) {
+  var trailPopA = a.popularity;
+  var trailPopB = b.popularity;
+
+  let comparison = 0;
+  if (trailPopA < trailPopB) {
+    comparison = -1;
+  } else if (trailPopA > trailPopB) {
+    comparison = 1;
   }
+  return comparison;
 }
 
+
 function getCovid() {
-  // another possible API that seems to be broken https://corona.lmao.ninja/docs/#/Covid-19%20NYT/get_v3_covid_19_nyt_counties
   $.ajax({
       url: "https://covid19-us-api.herokuapp.com/county",
       method: "GET"
@@ -390,16 +349,12 @@ function getCovid() {
       response.message.forEach(item => {
         search(item.county_name,item.state_name, trailArray, item);
       });
-      // for testing
-      // console.log(trailArray)
-
   })
 }
 
 function search(countyKey,stateKey, trailArray, obj) {
   for (var i = 0; i < trailArray.length; i++) {
       if (trailArray[i].county === countyKey && trailArray[i].state === stateKey) {
-        // Calculate risk factor .. this still needs refinement
 
         var cases = obj.new;
         var total = obj.confirmed;
@@ -417,6 +372,18 @@ function search(countyKey,stateKey, trailArray, obj) {
       }
   }
 
+}
+
+function getLocation() {
+  searchField.val("");
+  searchField.attr("disabled", true);
+  searchDiv.addClass("loading");
+  if (!navigator.geolocation) {
+    myLocation.text("Geolocation is not supported by your browser");
+  } else {
+    myLocation.text("Locating…");
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+  }
 }
 
 function geoSuccess(position) {
@@ -443,23 +410,16 @@ function userSearch(query) {
   $.ajax({
     method: "GET",
     url: url,
-    complete: function (xhr, statusText) {
-      //confirms success
-      //console.log(xhr.status);
-    },
-    error: function (jqXHR, error, errorThrown) {
-      //if error with call
+    error: function (jqXHR) {
       if (jqXHR.status && jqXHR.status == 400) {
-        alert(jqXHR.responseText);
+        myLocation.text("Uh-oh! Something went wrong!");
       } else {
-        // console.log(xhr.status);
-        console.log("Something went wrong: " + jqXHR.status);
+        myLocation.text("Oh no! Something's broken! Status: " + jqXHR.status);
       }
     },
   }).then(function (response) {
     if (response.error_message) {
-      // If API invalid or response is 200 but google throws error
-      alert("Something went wrong with your request.");
+      myLocation.text("Sorry. We had a problem finding the location.");
     }
     if (response.status === "ZERO_RESULTS") {
       searchReset();
@@ -504,21 +464,15 @@ function populateTiles() {
   
     
   for (var i = 0; i < trailArray.length; i++){
-    // console.log(trailArray[i])
 
     var trailTile = $("<div class='trail-tile'>");
     var imgBox = $("<div class='img-box'>");
     var trailImg = $("<img class='trail-img'>");
     var trailName = $("<h4 class='trail-name'>");
     var county = trailArray[i].county;
-    // console.log(county)
-    // console.log(trailArray[i].county)
-    // console.log(trailArray[i].id)
-    // console.log(trailArray[i].covidStatus)
     $(trailName).text(trailArray[i].name)
     var trailInfo = $("<div class='trail-info'>");
     var pStatus = $("<p>");
-    // var spanStatus = $("<span class='status'>");
     var riskRatingP = $("<p class='risk-rating'>").text("Covid-19 factor: ");
     var popularityRating = $("<p class='popularity'>").text("Popularity: ");
     var countyP = $("<p>");
@@ -558,7 +512,6 @@ function populateTiles() {
     
       $(trailInfo).append(countyP)
       $(countyP).text("County: ");
-      console.log(trailArray[i].county)
       $(countyP).append(countySpan);
       $(countySpan).text(county);
     

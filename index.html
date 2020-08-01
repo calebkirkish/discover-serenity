@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -10,18 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Josh, Jon, Caleb, Dan, Angelina" />
 
-    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/reset.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&family=Roboto:wght@400;700&display=swap" 
-    rel="stylesheet" type="text/css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script
       src="https://kit.fontawesome.com/5e7b35dc62.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/style.css" />
     <title>Discover Serenity</title>
   </head>
 
@@ -29,78 +31,74 @@
     <div class="page-container">
       <header class="page-header">
         <a class="menu-bar" href="index.html">
-          <h1><img src="img/brand-icon.png" class="logo" alt="Icon"> DISCOVER<span class="title-2">serenity</span></h1>
+          <h1>
+            <img src="img/brand-icon.png" class="logo" alt="Icon" />
+            DISCOVER<span class="title-2">serenity</span>
+          </h1>
         </a>
-        <br/>
+        <br />
         <div id="search-div" class="ui search">
           <div class="ui icon input">
-            <input id="search-field" class="prompt" type="text" placeholder="Enter city or ZIP">
+            <input
+              id="search-field"
+              class="prompt"
+              type="text"
+              placeholder="Enter city or ZIP"
+            />
             <i class="search link icon"></i>
           </div>
           <div class="results"></div>
         </div>
-        <br/>
+        <br />
         <div>
-          <p id="current-location">Use my location <i class="fas fa-location-arrow"></i></p>
+          <p id="current-location">
+            Use my location <i class="fas fa-location-arrow"></i>
+          </p>
         </div>
       </header>
-      
+
       <div class="ui small modal">
         <div class="header">
           <div class="actions">
-            <div class="ui cancel button"><i class="far fa-window-close fa-lg"></i></div>
+            <div class="ui cancel button">
+              <i class="far fa-window-close fa-lg"></i>
+            </div>
           </div>
           <h2 id="modal-name"></h2>
         </div>
         <div class="image content">
           <img class="modal-img" id="modal-image" src="" />
           <div class="modal-body description">
-            <p>Status: <span class="status">OPEN</span></p>
+            <p>Status: <span class="status"></span></p>
             <p class="risk-rating">
-              Covid-19 factor: 
-              <span id="covid-rating">
-
-              </span>
+              Covid-19 factor:
+              <span id="covid-rating"> </span>
             </p>
             <p class="popularity">
-              Popularity: 
-              <span id="pop-rating">
-
-              </span>
+              Popularity:
+              <span id="pop-rating"> </span>
             </p>
-            <hr/>
-            <br/>
-            <p>Length: 
-              <span id="length">
-
-            </span> miles</p>
-            <p>Difficulty: 
-              <span id="difficulty">
-
-            </span></p>
-            <p>Location: 
-              <span id="location">
-
-            </span></p>
-            <p>Summary: 
-              <span id="summary">
-
-            </span></p>
-            <div><button><a id="more-info" href="#" target="_blank">Learn more</a></button></div>
+            <hr />
+            <br />
+            <p>Length: <span id="length"> </span> miles</p>
+            <p>Difficulty: <span id="difficulty"> </span></p>
+            <p>Location: <span id="location"> </span></p>
+            <p>Summary: <span id="summary"> </span></p>
+            <div>
+              <button class="ui button">
+                <a id="more-info" href="#" target="_blank">Learn more</a>
+              </button>
+            </div>
           </div>
         </div>
-
       </div>
 
-      <div class="wrapper" id="two">
-        
-      </div>
-    
-      
+      <div class="wrapper" id="two"></div>
+
       <footer class="footer">
         DISCOVER Serenity &copy; 2020
       </footer>
-    </div> 
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.min.js"
