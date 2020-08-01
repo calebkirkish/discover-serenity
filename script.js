@@ -1,10 +1,6 @@
 
 var gKey = "AIzaSyDQOySmk8taGDt9pVaSXmNHpO0jjMnQkJ8";
 
-// Make variables that we will use to store trail data global
-var trailArray = [];
-var result = "";
-
 //global variables/elements
 var myLocation = $("#current-location");
 var searchField = $("#search-field");
@@ -20,7 +16,7 @@ var popL3 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa
 var popL4 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span>"
 var popL5 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span>"
 
-// Trail Class used for creating object
+var trailArray = [];
 class Trail {
   constructor(
     id,
@@ -63,8 +59,9 @@ class Trail {
 }
 
 function getTrailData(lat, lon) {
+  var result = "";
   $(".slideShow").empty()
-  $("#two").empty();
+  $("#tile-div").empty();
   trailArray = [];
   var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
   var distance = 70;
@@ -478,7 +475,7 @@ function populateTiles() {
     var countyP = $("<p>");
     var countySpan = $("<span class='county'>");
 
-    $("#two").append(trailTile);
+    $("#tile-div").append(trailTile);
     $(trailTile).append(imgBox);
     $(trailTile).attr("data-trailid", trailArray[i].id)
     $(imgBox).append(trailImg);
@@ -569,14 +566,9 @@ $(function() {
   }
 });
 
-
-
-
-  // get current location
-
   myLocation.on("click", getLocation);
 
-  // search field
+  // Search field
   $(".search.link").on("click", function () {
     if (searchField.val()) {
       searchField.attr("disabled", true);
