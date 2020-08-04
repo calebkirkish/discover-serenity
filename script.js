@@ -16,7 +16,7 @@ var popL3 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa
 var popL4 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span>"
 var popL5 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span>"
 
-var trailArray = [];
+// var trailArray = [];
 class Trail {
   constructor(
     id,
@@ -58,11 +58,11 @@ class Trail {
   }
 }
 
-function getTrailData(lat, lon) {
+ async function getTrailData(lat, lon) {
   var result = "";
   $(".slideShow").empty()
   $("#tile-div").empty();
-  trailArray = [];
+  var trailArray = [];
   var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
   var distance = 70;
   var maxResults = 50;
@@ -79,117 +79,114 @@ function getTrailData(lat, lon) {
   "&key=" +
   hikingAPIkey;
 
-  $.ajax({
+  const hikingQuery = await $.ajax({
     url: hikingQueryURL,
     method: "GET",
   })
-    .then(function (response) {
-      result = response.trails;
-
-      for (var i = 0; i < result.length; i++) {
-
-        var difficulty = "";
-
-        switch (result[i].difficulty) {
-          case "green":
-            difficulty = "Easy"
-            break;
-          case "greenBlue":
-            difficulty = "Mild"
-            break;
-          case "blue":
-            difficulty = "Moderate"
-            break;
-          case "blueBlack":
-            difficulty = "Challenging"
-            break;
-          case "black":
-            difficulty = "Hard"
-            break;
-          case "dblack":
-            difficulty = "Very hard"
-            break;
-          default:
-            difficulty = result[i].difficulty
-            break;
-        }
 
 
-        // If a trail is closed, we don't push it to our trail array
-        if (result[i].conditionStatus.includes("Closed")) {
-          // This does nothing with result.
-          var x = 0;
-          // If open we push to the trail array
-        } else {
-          var id = result[i].id;
-          var name = result[i].name;
-          var summary = result[i].summary;
-          var stars = result[i].stars;
-          var starVotes = result[i].starVotes;
-          var location = result[i].location;
-          var image = result[i].imgMedium;
-          var trailLength = result[i].length;
-          var ascent = result[i].ascent;
-          var descent = result[i].descent;
-          var longitude = result[i].longitude;
-          var latitude = result[i].latitude;
-          var conditionStatus = result[i].conditionStatus;
-          var url = result[i].url
+  result = hikingQuery.trails;
 
-          image.replace(/\//g, "/");
-          if (!image) {
-            image = "img/fallback-img.jpg"
-          }
-          url.replace(/\//g, "/");
+  for (var i = 0; i < result.length; i++) {
 
-          Trail.trailID = result[i].trailID;
+    var difficulty = "";
 
-          currentTrail = new Trail(
-            id,
-            name,
-            summary,
-            difficulty,
-            stars,
-            starVotes,
-            location,
-            image,
-            trailLength,
-            ascent,
-            descent,
-            longitude,
-            latitude,
-            conditionStatus,
-            url
-          );
-          trailArray.push(currentTrail);
+    switch (result[i].difficulty) {
+      case "green":
+        difficulty = "Easy"
+        break;
+      case "greenBlue":
+        difficulty = "Mild"
+        break;
+      case "blue":
+        difficulty = "Moderate"
+        break;
+      case "blueBlack":
+        difficulty = "Challenging"
+        break;
+      case "black":
+        difficulty = "Hard"
+        break;
+      case "dblack":
+        difficulty = "Very hard"
+        break;
+      default:
+        difficulty = result[i].difficulty
+        break;
+    }
 
-        }
+
+    // If a trail is closed, we don't push it to our trail array
+    if (result[i].conditionStatus.includes("Closed")) {
+      // This does nothing with result.
+      var x = 0;
+      // If open we push to the trail array
+    } else {
+      var id = result[i].id;
+      var name = result[i].name;
+      var summary = result[i].summary;
+      var stars = result[i].stars;
+      var starVotes = result[i].starVotes;
+      var location = result[i].location;
+      var image = result[i].imgMedium;
+      var trailLength = result[i].length;
+      var ascent = result[i].ascent;
+      var descent = result[i].descent;
+      var longitude = result[i].longitude;
+      var latitude = result[i].latitude;
+      var conditionStatus = result[i].conditionStatus;
+      var url = result[i].url
+
+      image.replace(/\//g, "/");
+      if (!image) {
+        image = "img/fallback-img.jpg"
       }
+      url.replace(/\//g, "/");
 
-    })
-    .then(function () {
-      
-        getCounty();
-        estimatePopularity();
+      Trail.trailID = result[i].trailID;
 
+      currentTrail = new Trail(
+        id,
+        name,
+        summary,
+        difficulty,
+        stars,
+        starVotes,
+        location,
+        image,
+        trailLength,
+        ascent,
+        descent,
+        longitude,
+        latitude,
+        conditionStatus,
+        url
+      );
+      trailArray.push(currentTrail);
 
+    }
+  }
   
-    }).then(getCovid).then(function(){
-      setTimeout(function() {
-        // fallback incase a county was not found
-        trailArray.forEach((trail) => {
-          if (!trail.county) {
-            trailArray = trailArray.filter(item => item !== trail)
-          }
-          // filter out trails that are probably not day hikes (future feature would be to allow user to choose this)
-          if (trail.length > 15) {
-            trailArray = trailArray.filter(item => item !== trail)
-          }
-        })
-        populateTiles()
-        searchReset();
-        $(".trail-tile").on("click", modalData)
-      }, 3000)
+  estimatePopularity(trailArray);
+
+  await getCounty(trailArray);
+
+  await getCovid(trailArray);
+
+  // fallback incase a county was not found
+  trailArray.forEach((trail) => {
+    if (!trail.county) {
+      trailArray = trailArray.filter(item => item !== trail)
+    }
+    // filter out trails that are probably not day hikes (future feature would be to allow user to choose this)
+    if (trail.length > 15) {
+      trailArray = trailArray.filter(item => item !== trail)
+    }
+  })
+  populateTiles(trailArray)
+  searchReset();
+  $(".trail-tile").on("click", modalData)
+
       
       function modalData() {
         $("#covid-rating").empty();
@@ -234,12 +231,12 @@ function getTrailData(lat, lon) {
             .modal("toggle", "show-dimmer");
       };
     
-    })
+    
 
     
 }
 
-function getCounty() {
+function getCounty(trailArray) {
   trailArray.forEach((trail) => {
     var lat = trail.latitude;
     var lon = trail.longitude;
@@ -291,9 +288,10 @@ function getCounty() {
     trail.state = itemState;
   });
 })
+return trailArray;
 }
 
-function estimatePopularity() {
+function estimatePopularity(trailArray) {
   trailArray.forEach((trail) => {
     var voteCount = trail.starVotes;
     var rating = trail.stars;
@@ -338,15 +336,16 @@ function trailSort(a, b) {
 }
 
 
-function getCovid() {
-  $.ajax({
+async function getCovid(trailArray) {
+  const covidQuery = await $.ajax({
       url: "https://covid19-us-api.herokuapp.com/county",
       method: "GET"
-  }).then(function (response) {
-      response.message.forEach(item => {
-        search(item.county_name,item.state_name, trailArray, item);
-      });
-  })
+  });
+
+    const covidComplete = await covidQuery.message.forEach(item => {
+      search(item.county_name,item.state_name, trailArray, item);
+    });
+  return covidComplete
 }
 
 function search(countyKey,stateKey, trailArray, obj) {
@@ -456,7 +455,7 @@ function searchReset() {
   myLocation.on("click", getLocation);
 }
 
-function populateTiles() {
+function populateTiles(trailArray) {
   
     
   for (var i = 0; i < trailArray.length; i++){
