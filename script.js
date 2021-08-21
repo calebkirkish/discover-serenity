@@ -1,20 +1,27 @@
-
-var gKey = "AIzaSyDQOySmk8taGDt9pVaSXmNHpO0jjMnQkJ8";
+var gKey = "AIzaSyD15vf6u6QUSF8x5MStPDeBOn1HzPml9Gg";
 
 //global variables/elements
 var myLocation = $("#current-location");
 var searchField = $("#search-field");
 var searchDiv = $("#search-div");
 
-var riskL1 = "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle icon'></span><span class='fas fa-circle icon'></span>";
-var riskL2 = "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span><span class='fas fa-circle icon'></span>";
-var riskL3 = "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span>"
+var riskL1 =
+  "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle icon'></span><span class='fas fa-circle icon'></span>";
+var riskL2 =
+  "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span><span class='fas fa-circle icon'></span>";
+var riskL3 =
+  "<span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span><span class='fas fa-circle checked icon'></span>";
 
-var popL1 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>"
-var popL2 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>"
-var popL3 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>"
-var popL4 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span>"
-var popL5 = "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span>"
+var popL1 =
+  "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>";
+var popL2 =
+  "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>";
+var popL3 =
+  "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span><span class='fas fa-hiking icon'></span>";
+var popL4 =
+  "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking icon'></span>";
+var popL5 =
+  "<span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span><span class='fas fa-hiking checked icon'></span>";
 
 var trailArray = [];
 class Trail {
@@ -60,24 +67,24 @@ class Trail {
 
 function getTrailData(lat, lon) {
   var result = "";
-  $(".slideShow").empty()
+  $(".slideShow").empty();
   $("#tile-div").empty();
   trailArray = [];
   var preHikingQueryURL = "https://www.hikingproject.com/data/get-trails?lat=";
-  var distance = 70;
+  var distance = 20;
   var maxResults = 50;
   var hikingAPIkey = "200842322-939f54646af26cdd74e5614a1181a8da";
   var hikingQueryURL =
-  preHikingQueryURL +
-  lat +
-  "&lon=" +
-  lon +
-  "&maxDistance=" +
-  distance +
-  "&maxResults=" +
-  maxResults +
-  "&key=" +
-  hikingAPIkey;
+    preHikingQueryURL +
+    lat +
+    "&lon=" +
+    lon +
+    "&maxDistance=" +
+    distance +
+    "&maxResults=" +
+    maxResults +
+    "&key=" +
+    hikingAPIkey;
 
   $.ajax({
     url: hikingQueryURL,
@@ -87,33 +94,31 @@ function getTrailData(lat, lon) {
       result = response.trails;
 
       for (var i = 0; i < result.length; i++) {
-
         var difficulty = "";
 
         switch (result[i].difficulty) {
           case "green":
-            difficulty = "Easy"
+            difficulty = "Easy";
             break;
           case "greenBlue":
-            difficulty = "Mild"
+            difficulty = "Mild";
             break;
           case "blue":
-            difficulty = "Moderate"
+            difficulty = "Moderate";
             break;
           case "blueBlack":
-            difficulty = "Challenging"
+            difficulty = "Challenging";
             break;
           case "black":
-            difficulty = "Hard"
+            difficulty = "Hard";
             break;
           case "dblack":
-            difficulty = "Very hard"
+            difficulty = "Very hard";
             break;
           default:
-            difficulty = result[i].difficulty
+            difficulty = result[i].difficulty;
             break;
         }
-
 
         // If a trail is closed, we don't push it to our trail array
         if (result[i].conditionStatus.includes("Closed")) {
@@ -134,11 +139,11 @@ function getTrailData(lat, lon) {
           var longitude = result[i].longitude;
           var latitude = result[i].latitude;
           var conditionStatus = result[i].conditionStatus;
-          var url = result[i].url
+          var url = result[i].url;
 
           image.replace(/\//g, "/");
           if (!image) {
-            image = "img/fallback-img.jpg"
+            image = "img/fallback-img.jpg";
           }
           url.replace(/\//g, "/");
 
@@ -162,135 +167,133 @@ function getTrailData(lat, lon) {
             url
           );
           trailArray.push(currentTrail);
-
         }
       }
-
     })
     .then(function () {
-      
-        getCounty();
-        estimatePopularity();
-
-
-  
-    }).then(getCovid).then(function(){
-      setTimeout(function() {
+      getCounty();
+      estimatePopularity();
+    })
+    .then(getCovid)
+    .then(function () {
+      setTimeout(function () {
         // fallback incase a county was not found
         trailArray.forEach((trail) => {
           if (!trail.county) {
-            trailArray = trailArray.filter(item => item !== trail)
+            trailArray = trailArray.filter((item) => item !== trail);
           }
           // filter out trails that are probably not day hikes (future feature would be to allow user to choose this)
           if (trail.length > 15) {
-            trailArray = trailArray.filter(item => item !== trail)
+            trailArray = trailArray.filter((item) => item !== trail);
           }
-        })
-        populateTiles()
+        });
+        populateTiles();
         searchReset();
-        $(".trail-tile").on("click", modalData)
-      }, 3000)
-      
+        $(".trail-tile").on("click", modalData);
+      }, 3000);
+
       function modalData() {
         $("#covid-rating").empty();
         $("#pop-rating").empty();
 
         var id = $(this).attr("data-trailid");
-        var targetTrail = trailArray.find(item => item.id == id);
-          $("#modal-name").text(targetTrail.name);
-      
-          $(".status").text(targetTrail.conditionStatus);
-      
-          if (targetTrail.covidStatus === 3) {
-            $("#covid-rating").append(riskL3)
-          } else if (targetTrail.covidStatus === 2) {
-            $("#covid-rating").append(riskL2)
-          } else {
-            $("#covid-rating").append(riskL1)
-          }
-      
-          if (targetTrail.popularity === 1) {
-            $("#pop-rating").append(popL1)
-          } else if (targetTrail.popularity === 2){
-            $("#pop-rating").append(popL2)
-          } else if(targetTrail.popularity === 3){
-            $("#pop-rating").append(popL3)
-          } else if(targetTrail.popularity === 4){
-            $("#pop-rating").append(popL4)
-          } else {
-            $("#pop-rating").append(popL5)
-          }
-        
-          $("#difficulty").text(targetTrail.difficulty);
-          $("#location").text(targetTrail.county + " County, " + targetTrail.state);
-          $("#summary").text(targetTrail.summary);
-          $("#more-info").attr("href", targetTrail.url);
-          $("#modal-image").attr("src", targetTrail.image);
-          $("#length").text(targetTrail.length)
-      
-          // activate modal
-          $(".small.modal")
-            .modal("setting", "transition", "vertical flip")
-            .modal("toggle", "show-dimmer");
-      };
-    
-    })
+        var targetTrail = trailArray.find((item) => item.id == id);
+        $("#modal-name").text(targetTrail.name);
 
-    
+        $(".status").text(targetTrail.conditionStatus);
+
+        if (targetTrail.covidStatus === 3) {
+          $("#covid-rating").append(riskL3);
+        } else if (targetTrail.covidStatus === 2) {
+          $("#covid-rating").append(riskL2);
+        } else {
+          $("#covid-rating").append(riskL1);
+        }
+
+        if (targetTrail.popularity === 1) {
+          $("#pop-rating").append(popL1);
+        } else if (targetTrail.popularity === 2) {
+          $("#pop-rating").append(popL2);
+        } else if (targetTrail.popularity === 3) {
+          $("#pop-rating").append(popL3);
+        } else if (targetTrail.popularity === 4) {
+          $("#pop-rating").append(popL4);
+        } else {
+          $("#pop-rating").append(popL5);
+        }
+
+        $("#difficulty").text(targetTrail.difficulty);
+        $("#location").text(
+          targetTrail.county + " County, " + targetTrail.state
+        );
+        $("#summary").text(targetTrail.summary);
+        $("#more-info").attr("href", targetTrail.url);
+        $("#modal-image").attr("src", targetTrail.image);
+        $("#length").text(targetTrail.length);
+
+        // activate modal
+        $(".small.modal")
+          .modal("setting", "transition", "vertical flip")
+          .modal("toggle", "show-dimmer");
+      }
+    });
 }
 
 function getCounty() {
   trailArray.forEach((trail) => {
     var lat = trail.latitude;
     var lon = trail.longitude;
-  var queryLocation = lat + ", " + lon;
-  var url =
-    "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-    queryLocation +
-    "&sensor=false&key=" +
-    gKey;
-  $.ajax({
-    method: "GET",
-    url: url,
-    error: function (jqXHR) {
-      if (jqXHR.status && jqXHR.status == 400) {
-        myLocation.text("Uh-oh! Something went wrong!");
-      } else {
-        myLocation.text("Oh no! Something's broken with " + trail + "! Status: " + jqXHR.status);
+    var queryLocation = lat + ", " + lon;
+    var url =
+      "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+      queryLocation +
+      "&sensor=false&key=" +
+      gKey;
+    $.ajax({
+      method: "GET",
+      url: url,
+      error: function (jqXHR) {
+        if (jqXHR.status && jqXHR.status == 400) {
+          myLocation.text("Uh-oh! Something went wrong!");
+        } else {
+          myLocation.text(
+            "Oh no! Something's broken with " +
+              trail +
+              "! Status: " +
+              jqXHR.status
+          );
+        }
+      },
+    }).then(function (response) {
+      if (response.error_message) {
+        return;
       }
-    },
-  }).then(function (response) {
-    if (response.error_message) {
-      myLocation.text("Sorry. We had a problem finding your trails.");
-    }
-    if (response.status === "ZERO_RESULTS") {
-      myLocation.text("No results for your location.");
-    }
-    var itemState = "";
-    var itemCounty = "";
-    for (var i = 0; i < response.results.length; i++) {
-      searchAddress(i)
-    }
+      if (response.status === "ZERO_RESULTS") {
+        return;
+      }
+      var itemState = "";
+      var itemCounty = "";
+      for (var i = 0; i < response.results.length; i++) {
+        searchAddress(i);
+      }
 
-    
-    function searchAddress(i) {
-      var components = response.results[i].address_components; 
-      components.forEach((item) => {
-        var checkItem = item.types[0];
-        if (checkItem === "administrative_area_level_1") {
-          itemState = item.long_name;
-        }
-        if (checkItem === "administrative_area_level_2") {
-          itemCounty = item.long_name;
-          itemCounty = itemCounty.replace("County", "").trim();
-        }
-        
-      });
-    }
-    trail.county = itemCounty;
-    trail.state = itemState;
+      function searchAddress(i) {
+        var components = response.results[i].address_components;
+        components.forEach((item) => {
+          var checkItem = item.types[0];
+          if (checkItem === "administrative_area_level_1") {
+            itemState = item.long_name;
+          }
+          if (checkItem === "administrative_area_level_2") {
+            itemCounty = item.long_name;
+            itemCounty = itemCounty.replace("County", "").trim();
+          }
+        });
+      }
+      trail.county = itemCounty;
+      trail.state = itemState;
+    });
   });
-})
 }
 
 function estimatePopularity() {
@@ -321,7 +324,7 @@ function estimatePopularity() {
     trail.popularity = popularity;
   });
 
-  trailArray.sort(trailSort)
+  trailArray.sort(trailSort);
 }
 
 function trailSort(a, b) {
@@ -337,38 +340,38 @@ function trailSort(a, b) {
   return comparison;
 }
 
-
 function getCovid() {
   $.ajax({
-      url: "https://covid19-us-api.herokuapp.com/county",
-      method: "GET"
+    url: "https://covid19-us-api.herokuapp.com/county",
+    method: "GET",
   }).then(function (response) {
-      response.message.forEach(item => {
-        search(item.county_name,item.state_name, trailArray, item);
-      });
-  })
+    response.message.forEach((item) => {
+      search(item.county_name, item.state_name, trailArray, item);
+    });
+  });
 }
 
-function search(countyKey,stateKey, trailArray, obj) {
+function search(countyKey, stateKey, trailArray, obj) {
   for (var i = 0; i < trailArray.length; i++) {
-      if (trailArray[i].county === countyKey && trailArray[i].state === stateKey) {
+    if (
+      trailArray[i].county === countyKey &&
+      trailArray[i].state === stateKey
+    ) {
+      var cases = obj.new;
+      var total = obj.confirmed;
 
-        var cases = obj.new;
-        var total = obj.confirmed;
-        
-        var status = 0;
+      var status = 0;
 
-        if (cases > 100 || total > 3000) {
-          status = 3;
-        } else if (cases > 80 || total > 1200) {
-          status = 2;
-        } else if (cases > 1 || total){
-          status = 1;
-        } 
-          trailArray[i].covidStatus = status;
+      if (cases > 100 || total > 3000) {
+        status = 3;
+      } else if (cases > 80 || total > 1200) {
+        status = 2;
+      } else if (cases > 1 || total) {
+        status = 1;
       }
+      trailArray[i].covidStatus = status;
+    }
   }
-
 }
 
 function getLocation() {
@@ -388,7 +391,7 @@ function geoSuccess(position) {
   var longitude = position.coords.longitude;
   myLocation.text("Finding trails...");
   myLocation.css("cursor", "not-allowed");
-  getTrailData(latitude, longitude)
+  getTrailData(latitude, longitude);
 }
 
 function geoError() {
@@ -416,6 +419,7 @@ function userSearch(query) {
     },
   }).then(function (response) {
     if (response.error_message) {
+      console.log(response);
       myLocation.text("Sorry. We had a problem finding the location.");
     }
     if (response.status === "ZERO_RESULTS") {
@@ -457,16 +461,13 @@ function searchReset() {
 }
 
 function populateTiles() {
-  
-    
-  for (var i = 0; i < trailArray.length; i++){
-
+  for (var i = 0; i < trailArray.length; i++) {
     var trailTile = $("<div class='trail-tile'>");
     var imgBox = $("<div class='img-box'>");
     var trailImg = $("<img class='trail-img'>");
     var trailName = $("<h4 class='trail-name'>");
     var county = trailArray[i].county;
-    $(trailName).text(trailArray[i].name)
+    $(trailName).text(trailArray[i].name);
     var trailInfo = $("<div class='trail-info'>");
     var pStatus = $("<p>");
     var riskRatingP = $("<p class='risk-rating'>").text("Covid-19 factor: ");
@@ -476,94 +477,97 @@ function populateTiles() {
 
     $("#tile-div").append(trailTile);
     $(trailTile).append(imgBox);
-    $(trailTile).attr("data-trailid", trailArray[i].id)
+    $(trailTile).attr("data-trailid", trailArray[i].id);
     $(imgBox).append(trailImg);
-    $(trailImg).attr("src", trailArray[i].image)
+    $(trailImg).attr("src", trailArray[i].image);
     $(trailTile).append(trailName);
     $(trailTile).append(trailInfo);
     $(trailInfo).append(pStatus);
     $(trailInfo).append(riskRatingP);
     if (trailArray[i].covidStatus === 3) {
-      $(riskRatingP).append(riskL3)
+      $(riskRatingP).append(riskL3);
     } else if (trailArray[i].covidStatus === 2) {
-      $(riskRatingP).append(riskL2)
+      $(riskRatingP).append(riskL2);
     } else {
-      $(riskRatingP).append(riskL1)
+      $(riskRatingP).append(riskL1);
     }
-    
+
     $(trailInfo).append(popularityRating);
 
-    if(trailArray[i].popularity === 1) {
-      $(popularityRating).append(popL1)
-    } else if (trailArray[i].popularity === 2){
-      $(popularityRating).append(popL2)
-    } else if(trailArray[i].popularity === 3){
-      $(popularityRating).append(popL3)
-    } else if(trailArray[i].popularity === 4){
-      $(popularityRating).append(popL4)
+    if (trailArray[i].popularity === 1) {
+      $(popularityRating).append(popL1);
+    } else if (trailArray[i].popularity === 2) {
+      $(popularityRating).append(popL2);
+    } else if (trailArray[i].popularity === 3) {
+      $(popularityRating).append(popL3);
+    } else if (trailArray[i].popularity === 4) {
+      $(popularityRating).append(popL4);
     } else {
-      $(popularityRating).append(popL5)
+      $(popularityRating).append(popL5);
     }
 
-    
-      $(trailInfo).append(countyP)
-      $(countyP).text("County: ");
-      $(countyP).append(countySpan);
-      $(countySpan).text(county);
-    
+    $(trailInfo).append(countyP);
+    $(countyP).text("County: ");
+    $(countyP).append(countySpan);
+    $(countySpan).text(county);
   }
-
 }
 
 $(document).ready(function () {
+  // Adding class slideShowContainer
+  $(".page-container").addClass("slideShowContainer");
 
-// Adding class slideShowContainer
-$('.page-container').addClass('slideShowContainer');
+  // Appending images for slideShow
+  $(".slideShowContainer").append(
+    "<ul class='slideShow'>" +
+      "<li><img class='wallpaper' src='img/annette-lake-wa.jpg' alt='Annette Lake WA'/></li>" +
+      "<li><img class='wallpaper' src='img/russian-guich-ca.jpg' alt='Russian Guich CA'/></li>" +
+      "<li><img class='wallpaper' src='img/hoh-rain-forest-wa.jpg' alt='Hoh Rain Forest WA'/></li>" +
+      "<li><img class='wallpaper' src='img/twin-falls-wa.jpg' alt='Twin Falls WA'/></li>" +
+      "<li><img class='wallpaper' src='img/muir-woods-ca.jpg' alt='Muir Woods CA'/></li>" +
+      "<li><img class='wallpaper' src='img/rattlesnake-ledge-wa.jpg' alt='Rattlesnake Ledge WA'/></li>" +
+      "</ul>"
+  );
 
-// Appending images for slideShow
-$('.slideShowContainer').append(
-  "<ul class='slideShow'>" 
-  + "<li><img class='wallpaper' src='img/annette-lake-wa.jpg' alt='Annette Lake WA'/></li>" 
-  + "<li><img class='wallpaper' src='img/russian-guich-ca.jpg' alt='Russian Guich CA'/></li>"
-  + "<li><img class='wallpaper' src='img/hoh-rain-forest-wa.jpg' alt='Hoh Rain Forest WA'/></li>" 
-  + "<li><img class='wallpaper' src='img/twin-falls-wa.jpg' alt='Twin Falls WA'/></li>"
-  + "<li><img class='wallpaper' src='img/muir-woods-ca.jpg' alt='Muir Woods CA'/></li>" 
-  + "<li><img class='wallpaper' src='img/rattlesnake-ledge-wa.jpg' alt='Rattlesnake Ledge WA'/></li>"
-  + "</ul>"
-);
+  // Function slideShow pre-loader
+  $(function () {
+    var slides = $(" .slideShow>li");
+    var slideCount = 0;
+    var totalSlides = slides.length;
+    var slideCache = [];
 
-// Function slideShow pre-loader
-$(function() {
-  var slides = $(' .slideShow>li');
-  var slideCount = 0;
-  var totalSlides = slides.length;
-  var slideCache = [];
-
-  (function preLoader() {
-    if (slideCount < totalSlides) {
-      //Load images
-      slideCache[slideCount] = new Image();
-      slideCache[slideCount].src = slides.eq(slideCount).find('img').attr('src');
-      slideCache[slideCount].onload = function() {
-        slideCount++;
-        preLoader();
+    (function preLoader() {
+      if (slideCount < totalSlides) {
+        //Load images
+        slideCache[slideCount] = new Image();
+        slideCache[slideCount].src = slides
+          .eq(slideCount)
+          .find("img")
+          .attr("src");
+        slideCache[slideCount].onload = function () {
+          slideCount++;
+          preLoader();
+        };
+      } else {
+        //Run the slideShow
+        slideCount = 0;
+        slideShow();
       }
-    } else {
-      //Run the slideShow
-      slideCount = 0;
-      slideShow();
-    }
-  }());
+    })();
 
-  function slideShow() {
-    slides.fadeOut()
-    // Run timer and fade in / fade out
-    slides.eq(slideCount).fadeIn(1000).delay(2000).fadeOut(1000, function() {
-      slideCount < totalSlides - 1 ? slideCount ++ : slideCount = 0;
-      slideShow();
-    });
-  }
-});
+    function slideShow() {
+      slides.fadeOut();
+      // Run timer and fade in / fade out
+      slides
+        .eq(slideCount)
+        .fadeIn(1000)
+        .delay(2000)
+        .fadeOut(1000, function () {
+          slideCount < totalSlides - 1 ? slideCount++ : (slideCount = 0);
+          slideShow();
+        });
+    }
+  });
 
   myLocation.on("click", getLocation);
 
@@ -584,6 +588,4 @@ $(function() {
       $(".search.link").click();
     }
   });
-
-  
 });
